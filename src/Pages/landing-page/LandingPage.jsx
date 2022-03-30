@@ -19,7 +19,7 @@ export const LandingPage = () => {
             <button className="bttn bttn-primary bttn-lg">
               <Link to='/home'>Start Now</Link>
             </button>
-            <p class="sub-text text-sm">Already have an account? <a className="text-sm bold link-text-primary">Login!</a></p>
+            <p className="sub-text text-sm">Already have an account? <a className="text-sm bold link-text-primary">Login!</a></p>
           </div>
         </div>
       </div>

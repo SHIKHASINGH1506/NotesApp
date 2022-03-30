@@ -1,5 +1,5 @@
 import './home.css';
-import { Drawer, SearchBar, Card } from "component/index";
+import { Drawer, SearchBar, Card } from "component";
 
 export const Home = () => {
   return (
@@ -7,12 +7,12 @@ export const Home = () => {
       <div className="container d-flex">
         <Drawer />
         <div className="d-flex justify-center center-body">
-          <div class="drawer-app-content">
-            <header class="drawer-top-bar">
+          <div className="drawer-app-content">
+            <header className="drawer-top-bar">
               <SearchBar />
             </header>
-            <main class="home-page-body">
-              <div class="fixed"></div>
+            <main className="home-page-body">
+              <div className="fixed"></div>
               <div className="card-container d-flex flex-col">
                 <Card />
                 <Card />

@@ -10,7 +10,7 @@ export const Card = () => {
     <div className="card py-2 px-4">
       <div className="card__title-wrapper d-flex items-center justify-between ">
         <div className="card__title">Empty Note</div>
-        <div class="d-flex items-center light-text">
+        <div className="d-flex items-center light-text">
           <PushPinOutlinedIcon className="mx-2 icon" />
         </div>
       </div>
@@ -20,16 +20,16 @@ export const Card = () => {
       <div className="card__footer-wrapper d-flex items-center justify-between">
         <div className="small-text light-text">Created on 26/01/2021</div>
         <div className="card__action-icons d-flex justify-between">
-          <div class="d-flex items-center light-text">
+          <div className="d-flex items-center light-text">
             <ColorLensOutlinedIcon className="mx-2 icon" />
           </div>
-          <div class="d-flex items-center light-text">
+          <div className="d-flex items-center light-text">
             <LabelOutlinedIcon className="mx-2 icon" />
           </div>
-          <div class="d-flex items-center light-text">
+          <div className="d-flex items-center light-text">
             <DeleteOutlineOutlinedIcon className="mx-2 icon" />
           </div>
-          <div class="d-flex items-cente light-text">
+          <div className="d-flex items-cente light-text">
             <ArchiveOutlinedIcon className="mx-2 icon" />
           </div>
         </div>
