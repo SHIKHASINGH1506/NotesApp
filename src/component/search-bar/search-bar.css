@@ -1,0 +1,21 @@
+.search-bar {
+  flex-grow: 1;
+  position: relative;
+  background-color: var(--transparent-white);
+}
+.search-bar__btn {
+  padding: 0.3rem 0.7rem;
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  color: var(--dark-secondary-text-color);
+}
+.search-bar-input {
+  padding: 0.9rem 0.7rem;
+  border: none;
+  background-color: var(--transparent-white);
+  width: 100%;
+}
+.search-bar-input:focus {
+  border-bottom: 1px solid var(--dark-secondary-text-color);
+}

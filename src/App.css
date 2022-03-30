@@ -1,51 +1,51 @@
-.App {
-  text-align: center;
-}
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Nunito:wght@200;400&display=swap');
+@import url('https://kube-ui.netlify.app/Components/kube-ui.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css');
+@import url('https://unpkg.com/mockman-js@latest/dist/style.css'); 
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+html {
+  scroll-behavior: smooth;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  box-sizing: border-box;
 }
+:root {
+  --primary-color: #45523e;
+  --dark-primary-color: #323b2e;
+  --light-primary-color: #8ca67e;
+  --very-light-primary-color: #e8ffdb;
 
-.App-header {
-  background-color: #22201c;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: white;
+  --complimentary-text-color: #f5ece5;
+  --transparent-white: white;
+
+  --secondary-text-color: #696b79;
+  --dark-secondary-text-color: #3f4049;
+  --dark-secondary-text-color2: #26272c;
+  --secondary-color: #eaeaec;
+  --dark-secondary-color: #d8d8da;
 }
-
-.App-link {
-  color: #61dafb;
+input {
+outline: none;
 }
-
-.brand-title {
-  font-size: 3rem;
-  color: #d9d9d9;
+.no-link-style {
+text-decoration: none;
+cursor: pointer;
+border: none;
+background-color: transparent;
+color: inherit;
 }
-
-.brand-title span {
-  color: #ffde59;
+li {
+  list-style-type: none;
 }
-
-.brand-description {
-  font-size: 1.4rem;
+a {
+  text-decoration: inherit;
+  color: inherit
 }
-
-.links {
-  display: flex;
-}
-
-.links a {
-  color: #d9d9d9;
-  font-size: 1.2rem;
-  margin: 1rem;
+body {
+  color: #3e4152;
+  background-color: #f8f8f8;
 }
