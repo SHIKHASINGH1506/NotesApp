@@ -1,0 +1,15 @@
+.landing-wrapper {
+  margin: 2rem 5rem;
+}
+.landing-content-wrapper {
+  flex-direction: row-reverse;
+  gap: 4rem;
+}
+.primary-txt{
+  color: var(--primary-color);
+}
+.landing-content,
+.hero-img-wrapper {
+  max-width: 514px;
+  width: 100%;
+}
