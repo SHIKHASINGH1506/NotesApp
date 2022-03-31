@@ -5,17 +5,18 @@ import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import LabelOutlinedIcon from '@mui/icons-material/LabelOutlined';
 
-export const Card = () => {
+export const Card = ({noteData}) => {
+  const {title, body} = noteData;
   return (
     <div className="card py-2 px-4">
       <div className="card__title-wrapper d-flex items-center justify-between ">
-        <div className="card__title">Empty Note</div>
+        <div className="card__title">{title}</div>
         <div className="d-flex items-center light-text">
           <PushPinOutlinedIcon className="mx-2 icon" />
         </div>
       </div>
       <div className="card__content text-light">
-        Body of the note
+        {body}
       </div>
       <div className="card__footer-wrapper d-flex items-center justify-between">
         <div className="small-text light-text">Created on 26/01/2021</div>

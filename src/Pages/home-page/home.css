@@ -1,3 +1,6 @@
 .wrapper {
   margin: 0 4.5rem;
 }
+.notes-container{
+  gap: 1rem;
+}

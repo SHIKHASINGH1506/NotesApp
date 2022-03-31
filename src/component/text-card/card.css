@@ -5,6 +5,7 @@
 }
 .card-container{
   gap: 1rem;
+  margin-bottom: 2rem;
 }
 .card__title-wrapper{
   margin-bottom: 0.3rem;
@@ -12,12 +13,32 @@
 .card__title {
   font-size: 1rem;
   font-weight: 500;
+  border: none;
+  resize: none;
+  width: 100%;
+  overflow: hidden;
+}
+.card__title, .card__content:focus {
+  outline: none;
 }
 .card__footer-wrapper{
-  margin-top: 0.7rem;
+  margin-top: 1.5rem;
+}
+.bttn-without-padding{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background: transparent;
+  font-size: 0.9rem;
+  cursor: pointer;
 }
 .card__content {
   font-size: 0.9rem;
+  border: none;
+  resize: none;
+  width: 100%;
+  overflow: hidden;
 }
 .card__action-icons {
   margin-left: auto;
