@@ -1,8 +1,3 @@
-.center-body {
- width: 100%;
- max-width: 100%;
- /* margin: auto; */
-}
 .side-navbar {
   gap: 0.7rem;
   min-width: 13rem;
@@ -32,23 +27,18 @@
   color: var(--primary-light-purple);
 }
 .drawer-app-content {
-  position: relative;
+  /* position: relative; */
   border-left: 1px solid var(--secondary-light-gray);
   max-width: 500px;
   width: 100%;
 }
 .drawer-top-bar {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  left: 0px;
   padding: 1.12rem;
 }
 .home-page-body {
   height: 100%;
   overflow-y: auto;
   padding: 0px 18px;
-  /* gap: 1rem; */
 }
 .fixed {
   padding-top: 5rem;

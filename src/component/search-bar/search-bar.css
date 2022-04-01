@@ -1,6 +1,6 @@
 .search-bar {
   flex-grow: 1;
-  position: relative;
+  /* position: relative; */
   background-color: var(--transparent-white);
 }
 .search-bar__btn {

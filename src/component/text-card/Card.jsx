@@ -5,10 +5,10 @@ import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import LabelOutlinedIcon from '@mui/icons-material/LabelOutlined';
 
-export const Card = ({noteData}) => {
-  const {title, body} = noteData;
+export const Card = ({noteData, editNoteFocusHandler}) => {
+  const {title, body, _id} = noteData;
   return (
-    <div className="card py-2 px-4">
+    <div className="card py-2 px-4" onClick={() => editNoteFocusHandler(_id)}>
       <div className="card__title-wrapper d-flex items-center justify-between ">
         <div className="card__title">{title}</div>
         <div className="d-flex items-center light-text">

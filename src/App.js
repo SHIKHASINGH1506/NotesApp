@@ -12,7 +12,14 @@ import {addNote} from 'service/note-service';
 import {useToast} from 'custom-hooks/useToast';
 
 function App() {
-  const {noteData, setNoteData, buttonFocus, setButtonFocus, dispatch} = useNote();
+  const {
+    noteData, 
+    setNoteData, 
+    dispatch,
+    state : {
+      addFormFocus
+    }
+  } = useNote();
   const {showToast} = useToast();
   const initialNote = {
     title: '',
@@ -25,11 +32,25 @@ function App() {
       addNote(dispatch, {note: noteData}, showToast);
       setTimeout(() => {
         setNoteData(initialNote);
-        setButtonFocus(false);
+        dispatch({
+          type: 'SET_NEW_NOTE_FOCUS',
+          payload: {
+            addFormFocus: false,
+            editFormFocus: false
+          }
+        })
       }, 1000)
     }
     setNoteData(initialNote);
-    buttonFocus ? setButtonFocus(false) : "";
+   addFormFocus 
+    ? dispatch({
+      type: 'SET_NEW_NOTE_FOCUS',
+      payload: {
+        addFormFocus: false,
+        editFormFocus: false
+      }
+      })
+    : "";
   }
   return (
     <div className="App">

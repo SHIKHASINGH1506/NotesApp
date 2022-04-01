@@ -8,7 +8,7 @@ import FaceOutlinedIcon from '@mui/icons-material/FaceOutlined';
 import {useNote} from "context";
 
 export const Drawer = () => {
-  const {buttonFocus, setButtonFocus} = useNote();
+  const {dispatch, state:{addFormFocus}} = useNote();
   return (
     <aside className="side-navbar d-flex flex-col">
       <div className="drawer-menu">
@@ -44,7 +44,15 @@ export const Drawer = () => {
             </span>
           </li>
         </ul>
-        <button className="bttn bttn-primary w-full my-2" onClick={() => setButtonFocus(true)}>
+        <button 
+          className="bttn bttn-primary w-full my-2" 
+          onClick={() => dispatch({
+            type: 'SET_NEW_NOTE_FOCUS',
+            payload: {
+              editFormFocus: false,
+              addFormFocus: !addFormFocus
+            }
+          })}>
           Create New Note
         </button>
       </div>
