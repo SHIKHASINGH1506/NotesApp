@@ -1,5 +1,6 @@
 const initialNoteState = {
   notes: [],
+  trash: [],
   loading: false,
   error: null,
   addFormFocus: false,
@@ -10,6 +11,7 @@ const notesReducer = (state, action) => {
     type, 
     payload : {
       notes,
+      trash,
       loading,
       error,
       addFormFocus,
@@ -44,6 +46,11 @@ const notesReducer = (state, action) => {
       return {
         ...state,
           notes
+      };
+    case 'MOVE_TO_TRASH': 
+      return {
+        ...state,
+         trash
       };
     default: 
       return state;

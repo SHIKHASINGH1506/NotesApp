@@ -82,7 +82,7 @@ const deleteNote = async (dispatch, id, showToast) => {
       payload: {
         notes
       }});
-    showToast('Note deleted!', 'success');
+    showToast('Moved to trash.', 'success');
   } catch (error) {
     showToast('Note not deleted!', 'error');
     console.log(error.message);

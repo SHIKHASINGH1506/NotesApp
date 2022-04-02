@@ -1,20 +1,30 @@
 import './card.css';
+//icons import 
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import LabelOutlinedIcon from '@mui/icons-material/LabelOutlined';
+import UnarchiveOutlinedIcon from '@mui/icons-material/UnarchiveOutlined';
+
 import { deleteNote } from 'service';
 import { useToast } from 'custom-hooks/useToast';
 import { useNote } from 'context';
 
 export const Card = ({noteData, editNoteFocusHandler}) => {
   const {title, body, _id} = noteData;
-  const {dispatch} = useNote();
+  const {dispatch, state : {notes, trash}} = useNote();
   const {showToast} = useToast();
 
   const deleteNoteHandler = (e, id) => {
     e.stopPropagation();
+    const note = notes.find(note => note._id === id);
+    dispatch({
+      type:"MOVE_TO_TRASH",
+      payload: {
+        trash: [...trash, note]
+      }
+    });
     deleteNote(dispatch, id, showToast);
   }
   return (

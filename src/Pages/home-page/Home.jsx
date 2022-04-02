@@ -59,6 +59,7 @@ export const Home = () => {
       }});
   }
 
+  // function to set add note fields
   const setNoteFields = (e) => {
     const {name, value} = e.target;
     setNoteData({
@@ -66,7 +67,7 @@ export const Home = () => {
       [name]: value
     });
   }
-
+  //function to set edit note fields
   const setEditNoteFields = (e) => {
     const {name, value} = e.target;
     setEditNoteData({
@@ -75,7 +76,7 @@ export const Home = () => {
     });
   }
 
-  //fucntion to edit a note
+  //fucntion to edit note
   const editNoteHandler = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -101,7 +102,6 @@ export const Home = () => {
   }
   return (
     <div className="wrapper">
-
       <div className={`overlay ${editFormFocus ? 'visible' : ''}`}>
         <div className={`edit-container ${editFormFocus ? 'show' : '' }`}>
           {/* Opens modal for edit note */}
