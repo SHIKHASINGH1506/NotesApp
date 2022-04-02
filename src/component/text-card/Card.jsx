@@ -4,11 +4,21 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import LabelOutlinedIcon from '@mui/icons-material/LabelOutlined';
+import { deleteNote } from 'service';
+import { useToast } from 'custom-hooks/useToast';
+import { useNote } from 'context';
 
 export const Card = ({noteData, editNoteFocusHandler}) => {
   const {title, body, _id} = noteData;
+  const {dispatch} = useNote();
+  const {showToast} = useToast();
+
+  const deleteNoteHandler = (e, id) => {
+    e.stopPropagation();
+    deleteNote(dispatch, id, showToast);
+  }
   return (
-    <div className="card py-2 px-4" onClick={() => editNoteFocusHandler(_id)}>
+    <div className="card py-2 px-4" onClick={() => editNoteFocusHandler( _id)}>
       <div className="card__title-wrapper d-flex items-center justify-between ">
         <div className="card__title">{title}</div>
         <div className="d-flex items-center light-text">
@@ -28,7 +38,7 @@ export const Card = ({noteData, editNoteFocusHandler}) => {
             <LabelOutlinedIcon className="mx-2 icon" />
           </div>
           <div className="d-flex items-center light-text">
-            <DeleteOutlineOutlinedIcon className="mx-2 icon" />
+            <DeleteOutlineOutlinedIcon className="mx-2 icon" onClick={(e) => deleteNoteHandler(e, _id)}/>
           </div>
           <div className="d-flex items-cente light-text">
             <ArchiveOutlinedIcon className="mx-2 icon" />
