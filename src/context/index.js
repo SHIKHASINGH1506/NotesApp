@@ -1,2 +1,4 @@
 import {useAuth, AuthProvider } from "./auth-context";
-export {useAuth, AuthProvider};
+import {useNote, NoteProvider } from "./note-context"
+
+export {useAuth, AuthProvider, useNote, NoteProvider};
