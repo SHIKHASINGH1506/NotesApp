@@ -14,7 +14,8 @@ export const Home = () => {
     state: {
       notes,
       addFormFocus,
-      editFormFocus
+      editFormFocus,
+      archiveEditFormFocus
     }, 
     noteData, 
     setNoteData, 
@@ -29,7 +30,8 @@ export const Home = () => {
       type: 'SET_NEW_NOTE_FOCUS', 
       payload: {
         editFormFocus: !editFormFocus,
-        addFormFocus: false
+        addFormFocus: false,
+        archiveEditFormFocus: false,
       }});
     setEditNoteData(notes.find(note => note._id===id));
   }
