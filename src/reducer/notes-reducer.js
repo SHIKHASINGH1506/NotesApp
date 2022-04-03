@@ -60,6 +60,11 @@ const notesReducer = (state, action) => {
         notes,
         archives
       }
+    case 'UPDATE_ARCHIVE':
+      return {
+        ...state,
+        archives
+      }
     default: 
       return state;
   }

@@ -7,25 +7,43 @@ import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import LabelOutlinedIcon from '@mui/icons-material/LabelOutlined';
 import UnarchiveOutlinedIcon from '@mui/icons-material/UnarchiveOutlined';
 
-import { deleteNote, archiveNote, unArchiveNote } from 'service';
+import { deleteNote, archiveNote, unArchiveNote, deleteArchiveNote } from 'service';
 import { useToast } from 'custom-hooks/useToast';
 import { useNote } from 'context';
 
 export const Card = ({noteData, editNoteFocusHandler}) => {
   const {title, body, _id, isArchive} = noteData;
-  const {dispatch, state : {notes, trash}} = useNote();
+  const {dispatch, state : {notes, trash, archives}} = useNote();
   const {showToast} = useToast();
 
   const deleteNoteHandler = (e, id) => {
     e.stopPropagation();
-    const note = notes.find(note => note._id === id);
-    dispatch({
-      type:"MOVE_TO_TRASH",
-      payload: {
-        trash: [...trash, note]
-      }
-    });
-    deleteNote(dispatch, id, showToast);
+    //trigger if archived note to be deleted
+    if(isArchive){
+      const archivedNote = archives.find(note => note._id === id);
+      dispatch({
+        type:"MOVE_TO_TRASH",
+        payload: {
+          trash: [...trash, archivedNote]
+        }
+      });
+      deleteArchiveNote(dispatch, id, showToast);
+    }
+    //trigger if note to be deleted
+    else{
+      const note = notes.find(note => note._id === id);
+
+      // to move deleted note to trash
+      dispatch({
+        type:"MOVE_TO_TRASH",
+        payload: {
+          trash: [...trash, note]
+        }
+      });
+  
+      // api call to delete note from note list
+      deleteNote(dispatch, id, showToast);
+    }
   }
 
   const archiveNoteHandler = (e, id, archiveData) => {
