@@ -5,7 +5,8 @@ const initialNoteState = {
   loading: false,
   error: null,
   addFormFocus: false,
-  editFormFocus: false
+  editFormFocus: false,
+  archiveEditFormFocus: false
 }
 const notesReducer = (state, action) => {
   const {
@@ -17,7 +18,8 @@ const notesReducer = (state, action) => {
       loading,
       error,
       addFormFocus,
-      editFormFocus
+      editFormFocus,
+      archiveEditFormFocus
     }
   } = action;
   switch (type) {
@@ -42,7 +44,8 @@ const notesReducer = (state, action) => {
       return{
         ...state,
           editFormFocus,
-          addFormFocus
+          addFormFocus,
+          archiveEditFormFocus
       }
     case 'UPDATE_NOTE':
       return {

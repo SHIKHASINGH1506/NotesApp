@@ -57,4 +57,22 @@ const deleteArchiveNote = async (dispatch, id, showToast) => {
   }
 }
 
-export {archiveNote, unArchiveNote, deleteArchiveNote}
+const updateArchiveNote = async (dispatch, id, archiveData, showToast) => {
+  const token = JSON.parse(localStorage.getItem("token"));
+  const Headers = { authorization: token };
+  try {
+    const { data : {archives} } = await axios.post(`/api/archives/${id}`, archiveData, { headers: Headers });
+    console.log(archives);
+    dispatch({
+      type: 'UPDATE_ARCHIVE', 
+      payload: {
+        archives
+      }});
+    showToast('Note updated!', 'success');
+  } catch (error) {
+    showToast('Note couldn"t update!', 'error');
+    console.log(error.message);
+  }
+}
+
+export {archiveNote, unArchiveNote, deleteArchiveNote, updateArchiveNote}
