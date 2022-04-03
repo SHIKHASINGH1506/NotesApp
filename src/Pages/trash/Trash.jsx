@@ -4,7 +4,7 @@ const Trash = () => {
   const {
     state: {
       trash
-    },
+    }
   } = useNote();
   return (
     <div className="wrapper">
