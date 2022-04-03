@@ -1,6 +1,7 @@
 const initialNoteState = {
   notes: [],
   trash: [],
+  archives: [],
   loading: false,
   error: null,
   addFormFocus: false,
@@ -12,6 +13,7 @@ const notesReducer = (state, action) => {
     payload : {
       notes,
       trash,
+      archives,
       loading,
       error,
       addFormFocus,
@@ -52,6 +54,12 @@ const notesReducer = (state, action) => {
         ...state,
          trash
       };
+    case 'SET_ARCHIVE':
+      return {
+        ...state,
+        notes,
+        archives
+      }
     default: 
       return state;
   }
