@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { LandingPage, Home, Login, Signup, Trash } from "Pages";
+import { LandingPage, Home, Login, Signup, Trash, Archive } from "Pages";
 
 const AppRoute = () => {
   return (
@@ -9,6 +9,7 @@ const AppRoute = () => {
       <Route path='/login' element={<Login />} />
       <Route path='/signup' element={<Signup />} />
       <Route path='/trash' element={<Trash />} />
+      <Route path='/archive' element={<Archive />} />
     </Routes>
   );
 }
