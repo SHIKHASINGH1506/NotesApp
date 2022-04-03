@@ -27,10 +27,10 @@ export const Drawer = () => {
             </span>
           </li>
           <li className="nav-item d-flex items-center py-2 px-2">
-            <span className="d-flex items-center">
+            <Link to='/archive' className="d-flex items-center">
               <ArchiveOutlinedIcon className="mr-2 icon" />
               Archive
-            </span>
+            </Link>
           </li>
           <li className="nav-item d-flex items-center py-2 px-2">
             <Link to ="/trash" className="d-flex items-center">
