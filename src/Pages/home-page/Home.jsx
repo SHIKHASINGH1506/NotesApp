@@ -1,9 +1,9 @@
 import './home.css';
 import { Drawer, SearchBar, Card, NoteForm } from "component";
 import {useNote} from 'context';
-
 import {addNote, editNote} from 'service';
 import {useToast} from 'custom-hooks/useToast';
+import {getFormattedDate} from 'utils/getFormatedDate';
 
 export const Home = () => {
   const initialNote = {
@@ -39,7 +39,14 @@ export const Home = () => {
     e.preventDefault();
     e.stopPropagation();
     if(!(noteData.title.trim() === '' && noteData.body.trim() === '')) {
-      addNote(dispatch, {note: noteData}, showToast);
+      addNote(
+        dispatch, 
+        {note: {
+          ...noteData, 
+          isArchive: false,
+          createdOn: getFormattedDate()
+        }}, 
+        showToast);
       setTimeout(() => {
         setNoteData(initialNote);
         dispatch({
