@@ -12,6 +12,7 @@ const NoteProvider = ({ children }) => {
   };
   const [noteData, setNoteData] = useState(initialNote);
   const [editNoteData, setEditNoteData] = useState();
+  const [archiveNoteData, setArchiveNoteData] = useState();
   const [state, dispatch] = useReducer(notesReducer, initialNoteState);
 
   const getAllNotes = () => {
@@ -29,6 +30,8 @@ const NoteProvider = ({ children }) => {
       setNoteData, 
       editNoteData,  
       setEditNoteData, 
+      archiveNoteData,
+      setArchiveNoteData,
       state, 
       dispatch
     }}>

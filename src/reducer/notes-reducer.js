@@ -1,19 +1,25 @@
 const initialNoteState = {
   notes: [],
+  trash: [],
+  archives: [],
   loading: false,
   error: null,
   addFormFocus: false,
-  editFormFocus: false
+  editFormFocus: false,
+  archiveEditFormFocus: false
 }
 const notesReducer = (state, action) => {
   const {
     type, 
     payload : {
       notes,
+      trash,
+      archives,
       loading,
       error,
       addFormFocus,
-      editFormFocus
+      editFormFocus,
+      archiveEditFormFocus
     }
   } = action;
   switch (type) {
@@ -38,13 +44,30 @@ const notesReducer = (state, action) => {
       return{
         ...state,
           editFormFocus,
-          addFormFocus
+          addFormFocus,
+          archiveEditFormFocus
       }
     case 'UPDATE_NOTE':
       return {
         ...state,
           notes
       };
+    case 'MOVE_TO_TRASH': 
+      return {
+        ...state,
+         trash
+      };
+    case 'SET_ARCHIVE':
+      return {
+        ...state,
+        notes,
+        archives
+      }
+    case 'UPDATE_ARCHIVE':
+      return {
+        ...state,
+        archives
+      }
     default: 
       return state;
   }

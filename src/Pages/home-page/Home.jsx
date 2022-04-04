@@ -1,9 +1,9 @@
 import './home.css';
 import { Drawer, SearchBar, Card, NoteForm } from "component";
 import {useNote} from 'context';
-
 import {addNote, editNote} from 'service';
 import {useToast} from 'custom-hooks/useToast';
+import {getFormattedDate} from 'utils/getFormatedDate';
 
 export const Home = () => {
   const initialNote = {
@@ -14,7 +14,8 @@ export const Home = () => {
     state: {
       notes,
       addFormFocus,
-      editFormFocus
+      editFormFocus,
+      archiveEditFormFocus
     }, 
     noteData, 
     setNoteData, 
@@ -29,7 +30,8 @@ export const Home = () => {
       type: 'SET_NEW_NOTE_FOCUS', 
       payload: {
         editFormFocus: !editFormFocus,
-        addFormFocus: false
+        addFormFocus: false,
+        archiveEditFormFocus: false,
       }});
     setEditNoteData(notes.find(note => note._id===id));
   }
@@ -39,7 +41,14 @@ export const Home = () => {
     e.preventDefault();
     e.stopPropagation();
     if(!(noteData.title.trim() === '' && noteData.body.trim() === '')) {
-      addNote(dispatch, {note: noteData}, showToast);
+      addNote(
+        dispatch, 
+        {note: {
+          ...noteData, 
+          isArchive: false,
+          createdOn: getFormattedDate()
+        }}, 
+        showToast);
       setTimeout(() => {
         setNoteData(initialNote);
         dispatch({
@@ -59,6 +68,7 @@ export const Home = () => {
       }});
   }
 
+  // function to set add note fields
   const setNoteFields = (e) => {
     const {name, value} = e.target;
     setNoteData({
@@ -66,7 +76,7 @@ export const Home = () => {
       [name]: value
     });
   }
-
+  //function to set edit note fields
   const setEditNoteFields = (e) => {
     const {name, value} = e.target;
     setEditNoteData({
@@ -75,7 +85,7 @@ export const Home = () => {
     });
   }
 
-  //fucntion to edit a note
+  //fucntion to edit note
   const editNoteHandler = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -101,7 +111,6 @@ export const Home = () => {
   }
   return (
     <div className="wrapper">
-
       <div className={`overlay ${editFormFocus ? 'visible' : ''}`}>
         <div className={`edit-container ${editFormFocus ? 'show' : '' }`}>
           {/* Opens modal for edit note */}

@@ -6,6 +6,7 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import FaceOutlinedIcon from '@mui/icons-material/FaceOutlined';
 
 import {useNote} from "context";
+import { Link } from 'react-router-dom';
 
 export const Drawer = () => {
   const {dispatch, state:{addFormFocus}} = useNote();
@@ -26,16 +27,16 @@ export const Drawer = () => {
             </span>
           </li>
           <li className="nav-item d-flex items-center py-2 px-2">
-            <span className="d-flex items-center">
+            <Link to='/archive' className="d-flex items-center">
               <ArchiveOutlinedIcon className="mr-2 icon" />
               Archive
-            </span>
+            </Link>
           </li>
           <li className="nav-item d-flex items-center py-2 px-2">
-            <span className="d-flex items-center">
+            <Link to ="/trash" className="d-flex items-center">
               <DeleteOutlineOutlinedIcon className="mr-2 icon" />
               Trash
-            </span>
+            </Link>
           </li>
           <li className="nav-item d-flex items-center py-2 px-2">
             <span className="d-flex items-center">

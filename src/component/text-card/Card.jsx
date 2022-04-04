@@ -1,14 +1,61 @@
 import './card.css';
+//icons import 
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import LabelOutlinedIcon from '@mui/icons-material/LabelOutlined';
+import UnarchiveOutlinedIcon from '@mui/icons-material/UnarchiveOutlined';
+
+import { deleteNote, archiveNote, unArchiveNote, deleteArchiveNote } from 'service';
+import { useToast } from 'custom-hooks/useToast';
+import { useNote } from 'context';
 
 export const Card = ({noteData, editNoteFocusHandler}) => {
-  const {title, body, _id} = noteData;
+  const {title, body, _id, isArchive} = noteData;
+  const {dispatch, state : {notes, trash, archives}} = useNote();
+  const {showToast} = useToast();
+
+  const deleteNoteHandler = (e, id) => {
+    e.stopPropagation();
+    //trigger if archived note to be deleted
+    if(isArchive){
+      const archivedNote = archives.find(note => note._id === id);
+      dispatch({
+        type:"MOVE_TO_TRASH",
+        payload: {
+          trash: [...trash, archivedNote]
+        }
+      });
+      deleteArchiveNote(dispatch, id, showToast);
+    }
+    //trigger if note to be deleted
+    else{
+      const note = notes.find(note => note._id === id);
+
+      // to move deleted note to trash
+      dispatch({
+        type:"MOVE_TO_TRASH",
+        payload: {
+          trash: [...trash, note]
+        }
+      });
+  
+      // api call to delete note from note list
+      deleteNote(dispatch, id, showToast);
+    }
+  }
+
+  const archiveNoteHandler = (e, id, archiveData) => {
+    e.stopPropagation();
+    isArchive 
+      ? unArchiveNote(dispatch, id, archiveData, showToast) 
+      : archiveNote(dispatch, id, archiveData, showToast);
+    
+  }
+  const archiveIcon = isArchive ? <UnarchiveOutlinedIcon /> : <ArchiveOutlinedIcon />;
   return (
-    <div className="card py-2 px-4" onClick={() => editNoteFocusHandler(_id)}>
+    <div className="card py-2 px-4" onClick={() => editNoteFocusHandler( _id)}>
       <div className="card__title-wrapper d-flex items-center justify-between ">
         <div className="card__title">{title}</div>
         <div className="d-flex items-center light-text">
@@ -28,10 +75,13 @@ export const Card = ({noteData, editNoteFocusHandler}) => {
             <LabelOutlinedIcon className="mx-2 icon" />
           </div>
           <div className="d-flex items-center light-text">
-            <DeleteOutlineOutlinedIcon className="mx-2 icon" />
+            <DeleteOutlineOutlinedIcon 
+              className="mx-2 icon" 
+              onClick={(e) => deleteNoteHandler(e, _id)}/>
           </div>
-          <div className="d-flex items-cente light-text">
-            <ArchiveOutlinedIcon className="mx-2 icon" />
+          <div className="d-flex items-cente light-text mx-2 icon"
+            onClick={(e) => archiveNoteHandler(e, _id, noteData)}>
+            {archiveIcon}
           </div>
         </div>
       </div>
