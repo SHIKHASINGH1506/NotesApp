@@ -46,7 +46,7 @@ const addNote = async (dispatch, noteData, showToast) => {
       throw new Error("Couldn't add a new note!");
     }
   } catch (error) {
-    console.log(error.message);
+    console.log(error.response.data);
   }
 }
 

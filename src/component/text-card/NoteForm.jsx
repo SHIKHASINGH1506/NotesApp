@@ -5,6 +5,7 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import LabelOutlinedIcon from '@mui/icons-material/LabelOutlined';
+// import PushPinIcon from '@mui/icons-material/PushPin'; 
 
 import { useRef, useState } from "react";
 import { ColorPallet } from "component";
@@ -18,6 +19,7 @@ export const NoteForm = (
     addNoteHandler,
   }) => {
   const ref = useRef();
+  const {title, body, bgColor} = noteData;
 
   const [showOptionForNote, setOption] = useState({
     showColorPallet: false,
@@ -42,6 +44,7 @@ export const NoteForm = (
   return (
     <div
       ref={ref}
+      style={{backgroundColor: bgColor}}
     >
       {isForm &&
         <form className="card py-2 px-4"
@@ -57,7 +60,8 @@ export const NoteForm = (
               onChange={(e) => setFields(e)}
             >
             </textarea>
-            <div className="d-flex items-center light-text">
+            <div 
+              className="d-flex items-center light-text mx-2 icon">
               <PushPinOutlinedIcon className="mx-2 icon" />
             </div>
           </div>
@@ -88,12 +92,12 @@ export const NoteForm = (
               <div className="d-flex items-center light-text">
                 <LabelOutlinedIcon className="mx-2 icon" />
               </div>
-              <div className="d-flex items-center light-text">
+              {/* <div className="d-flex items-center light-text">
                 <DeleteOutlineOutlinedIcon className="mx-2 icon" />
               </div>
               <div className="d-flex items-cente light-text">
                 <ArchiveOutlinedIcon className="mx-2 icon" />
-              </div>
+              </div> */}
             </div>
           </div>
         </form>}
