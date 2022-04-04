@@ -6,59 +6,38 @@ import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import LabelOutlinedIcon from '@mui/icons-material/LabelOutlined';
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { ColorPallet } from "component";
 import { useOnClickOutside } from "custom-hooks/useOnClickOutside";
-import { addNote } from 'service/note-service';
-import { useNote } from "context";
-import { useToast } from 'custom-hooks/useToast';
 
 export const NoteForm = (
   {
     isForm,
     noteData,
     setFields,
-    addNoteHandler
+    addNoteHandler,
   }) => {
-  const {
-    dispatch,
-    setNoteData,
-    state: {
-      addFormFocus
-    }
-  } = useNote();
   const ref = useRef();
-  const { showToast } = useToast();
-  const initialNote = {
-    title: '',
-    body: ''
-  };
-  const handler = () => {
-    if (!(noteData.title.trim() === '' && noteData.body.trim() === '')) {
-      addNote(dispatch, { note: noteData }, showToast);
-      setTimeout(() => {
-        setNoteData(initialNote);
-        dispatch({
-          type: 'SET_NEW_NOTE_FOCUS',
-          payload: {
-            addFormFocus: false,
-            editFormFocus: false
-          }
-        })
-      }, 1000)
-    }
-    setNoteData(initialNote);
-    addFormFocus
-      ? dispatch({
-        type: 'SET_NEW_NOTE_FOCUS',
-        payload: {
-          addFormFocus: false,
-          editFormFocus: false
-        }
+
+  const [showOptionForNote, setOption] = useState({
+    showColorPallet: false,
+  });
+  const {showColorPallet} = showOptionForNote;
+
+  const optionHandler = (e, type) => {
+    e.stopPropagation();
+    switch (type) {
+      case "COLOR":
+      setOption(currentOption => ({
+        ...currentOption,
+        showColorPallet: !currentOption.showColorPallet
       })
-      : "";
+      );
+    }
   }
 
-  useOnClickOutside(ref, handler);
+  //call this custome hook with different handlers based on if the form is for new note or edit note
+  useOnClickOutside(ref, addNoteHandler)
 
   return (
     <div
@@ -100,7 +79,11 @@ export const NoteForm = (
             </button>
             <div className="card__action-icons d-flex justify-between">
               <div className="d-flex items-center light-text">
-                <ColorLensOutlinedIcon className="mx-2 icon" />
+                <ColorLensOutlinedIcon 
+                  className="mx-2 icon" 
+                  onClick={(e) => optionHandler(e, 'COLOR')}
+                />
+                {showColorPallet && <ColorPallet />}
               </div>
               <div className="d-flex items-center light-text">
                 <LabelOutlinedIcon className="mx-2 icon" />

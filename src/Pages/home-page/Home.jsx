@@ -1,9 +1,10 @@
 import './home.css';
 import { Drawer, SearchBar, Card, NoteForm } from "component";
-import {useNote} from 'context';
-import {addNote, editNote} from 'service';
-import {useToast} from 'custom-hooks/useToast';
-import {getFormattedDate} from 'utils/getFormatedDate';
+import { useNote} from 'context';
+import { addNote, editNote} from 'service';
+import { useToast} from 'custom-hooks/useToast';
+import { getFormattedDate} from 'utils/getFormatedDate';
+
 
 export const Home = () => {
   const initialNote = {
@@ -109,6 +110,7 @@ export const Home = () => {
         addFormFocus: false
     }});
   }
+
   return (
     <div className="wrapper">
       <div className={`overlay ${editFormFocus ? 'visible' : ''}`}>
@@ -135,7 +137,7 @@ export const Home = () => {
             <main className="home-page-body">
               <div className="card-container">
                 {/* opens modal for add note */}
-                {addFormFocus 
+                {addFormFocus
                   && <NoteForm 
                       isForm={addFormFocus}
                       noteData={noteData}

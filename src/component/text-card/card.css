@@ -6,6 +6,7 @@
 .card-container{
   gap: 1rem;
   margin-bottom: 2rem;
+  position: relative;
 }
 .card__title-wrapper{
   margin-bottom: 0.3rem;
