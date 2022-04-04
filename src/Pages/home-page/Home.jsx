@@ -1,15 +1,17 @@
 import './home.css';
+import {useState} from 'react';
 import { Drawer, SearchBar, Card, NoteForm } from "component";
-import { useNote} from 'context';
-import { addNote, editNote} from 'service';
-import { useToast} from 'custom-hooks/useToast';
-import { getFormattedDate} from 'utils/getFormatedDate';
+import { useNote } from 'context';
+import { addNote, editNote } from 'service';
+import { useToast } from 'custom-hooks/useToast';
+import { getFormattedDate } from 'utils/getFormatedDate';
 
 
 export const Home = () => {
   const initialNote = {
     title: '',
-    body: ''
+    body: '',
+    bgColor: ''
   };
   const {
     state: {
@@ -25,6 +27,7 @@ export const Home = () => {
     dispatch
   } = useNote();
   const {showToast} = useToast();
+  // const [pinned, setPinForNewNote] = useState(false);
 
   const handleEditFormFocus = (id) => {
     dispatch({
@@ -47,6 +50,7 @@ export const Home = () => {
         {note: {
           ...noteData, 
           isArchive: false,
+          isPinned: false,
           createdOn: getFormattedDate()
         }}, 
         showToast);
@@ -111,6 +115,29 @@ export const Home = () => {
     }});
   }
 
+  //function to pin existing note
+  const pinHandler = (e, id) => {
+    e.stopPropagation();
+    const newNotes = notes.map(note => {
+      if(note._id === id )
+         return {...note, isPinned: !note.isPinned}
+      else
+        return note;
+      });
+      dispatch({
+        type:'SET_PIN',
+        payload: {
+          notes: newNotes
+        }
+      });   
+  }
+
+  //function to pin a new note 
+  // const newNotePinHandler = (e) => {
+  //   e.stopPropagation();
+  //   setPinForNewNote(curretnPinState => !curretnPinState);
+  // }
+
   return (
     <div className="wrapper">
       <div className={`overlay ${editFormFocus ? 'visible' : ''}`}>
@@ -153,6 +180,7 @@ export const Home = () => {
                       noteData={note} 
                       key={note._id} 
                       editNoteFocusHandler={handleEditFormFocus}
+                      pinHandler={(e) => pinHandler(e, note._id)}
                     />
                   )}
                  </div>)

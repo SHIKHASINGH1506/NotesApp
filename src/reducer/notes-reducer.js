@@ -68,6 +68,11 @@ const notesReducer = (state, action) => {
         ...state,
         archives
       }
+    case 'SET_PIN':
+      return{
+        ...state,
+        notes
+      }
     default: 
       return state;
   }
