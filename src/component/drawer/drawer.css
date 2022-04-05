@@ -1,6 +1,6 @@
 .side-navbar {
   gap: 0.7rem;
-  min-width: 13rem;
+  min-width: 15.5rem;
   height: 100%;
   padding: 1.2rem 1rem;
 }
@@ -42,4 +42,19 @@
 }
 .fixed {
   padding-top: 5rem;
+}
+.label-wrapper{
+  max-width: 100%;
+  border: 1px solid var(--primary-color);
+}
+.label-input{
+  max-width: 100%;
+  border: none;
+  padding: 0.5rem 0.3rem;
+}
+.label-btn{
+  background: white;
+  border: none;
+  color: var(--primary-color);
+  cursor: pointer;
 }
