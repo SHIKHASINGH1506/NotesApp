@@ -7,6 +7,7 @@ import FaceOutlinedIcon from '@mui/icons-material/FaceOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import { v4 as uuid } from "uuid";
 
+import { LabelInput } from 'component';
 import {useNote} from "context";
 import { Link } from 'react-router-dom';
 import { useState } from "react";
@@ -18,10 +19,13 @@ export const Drawer = () => {
   const addLabel = (e) => {
      e.preventDefault();
      e.stopPropagation();
-     dispatch({type: 'SET_LABEL', payload: { label: label, labelId: uuid()} });
+     dispatch({type: 'SET_LABEL', payload: { label: label, labelId: uuid(), isChecked: false} });
      setLabel('');
   }
-  console.log(labels);
+
+  const setLableField = (e) => {
+    setLabel(e.target.value);
+  }
   return (
     <aside className="side-navbar d-flex flex-col">
       <section className="drawer-menu">
@@ -64,20 +68,10 @@ export const Drawer = () => {
           </li>
         </ul>
         <section className="py-2">
-          <form onSubmit={addLabel}>
-            <div className="label-wrapper d-flex w-full items-center">
-              <input 
-                className="label-input w-full" 
-                type="text" 
-                placeholder="Enter new label" 
-                required="" 
-                value={label}
-                onChange={(e) => setLabel(e.target.value)} />
-              <button className="label-btn" type="submit">
-                <AddIcon />
-              </button>
-            </div>
-          </form>
+          <LabelInput 
+            label={label} 
+            addLabelHandler={addLabel}
+            setlabelField={setLableField}/>
         </section>
         <button 
           className="bttn bttn-primary w-full my-2" 
