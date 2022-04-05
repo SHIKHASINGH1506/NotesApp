@@ -5,7 +5,6 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import LabelOutlinedIcon from '@mui/icons-material/LabelOutlined';
-// import PushPinIcon from '@mui/icons-material/PushPin'; 
 
 import { useRef, useState } from "react";
 import { ColorPallet } from "component";
@@ -17,6 +16,7 @@ export const NoteForm = (
     noteData,
     setFields,
     addNoteHandler,
+    isAddFrom
   }) => {
   const ref = useRef();
   const {title, body, bgColor} = noteData;
@@ -37,26 +37,35 @@ export const NoteForm = (
       );
     }
   }
-
+  const [backgroundColor, setBackgroundColor] = useState('');
   //call this custome hook with different handlers based on if the form is for new note or edit note
-  useOnClickOutside(ref, addNoteHandler)
+  useOnClickOutside(ref, addNoteHandler);
+
+  const getColor = (e, color) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setBackgroundColor(color);
+  }
 
   return (
     <div
       ref={ref}
-      style={{backgroundColor: bgColor}}
     >
       {isForm &&
-        <form className="card py-2 px-4"
-          onSubmit={(e) => addNoteHandler(e)}
+        <form 
+          className="card py-2 px-4"
+          style={{backgroundColor: isAddFrom ? backgroundColor : bgColor}}
+          onSubmit={(e) => addNoteHandler(e, backgroundColor)}
         >
           <div className="card__title-wrapper d-flex items-center justify-between ">
             <textarea
+              style={{backgroundColor: isAddFrom ? backgroundColor : bgColor}}
               className="card__title"
               type="text"
               placeholder="Title"
               name="title"
-              value={noteData.title}
+              value={title}
+              tabIndex="1"
               onChange={(e) => setFields(e)}
             >
             </textarea>
@@ -66,11 +75,13 @@ export const NoteForm = (
             </div>
           </div>
           <textarea
+            style={{backgroundColor: isAddFrom ? backgroundColor : bgColor}}
             className="card__content text-light"
             type="text"
             placeholder="Add a note..."
             name="body"
-            value={noteData.body}
+            value={body}
+            tabIndex="2"
             onChange={(e) => setFields(e)}
           >
           </textarea>
@@ -87,7 +98,7 @@ export const NoteForm = (
                   className="mx-2 icon" 
                   onClick={(e) => optionHandler(e, 'COLOR')}
                 />
-                {showColorPallet && <ColorPallet />}
+                {showColorPallet && <ColorPallet getColor={getColor} />}
               </div>
               <div className="d-flex items-center light-text">
                 <LabelOutlinedIcon className="mx-2 icon" />

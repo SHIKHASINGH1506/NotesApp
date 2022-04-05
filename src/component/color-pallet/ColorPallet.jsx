@@ -1,8 +1,7 @@
 import { v4 as uuid } from "uuid";
 import './color-pallete.css';
-import {useState} from 'react';
 
-const ColorPallet = () => {
+const ColorPallet = ({getColor}) => {
  const colors =[
   {
     id: uuid(),
@@ -45,18 +44,13 @@ const ColorPallet = () => {
     color: '#fdcfe8'  
   },
 ]
-const [backgroundColor, setBackgroundColor] = useState('');
-const setColorHandler = (e, color) => {
-  e.stopPropagation();
-  setBackgroundColor(color);
-}
 return (
   <div className="color-pallete d-flex">
     {colors.map(color => (
       <div className="color-box justify-center items-center">
         <button 
           className="color-btn"
-          onClick={(e) => setColorHandler(e, color.color)}
+          onClick={(e) => getColor(e, color.color)}
           style={{backgroundColor: color.color}}>
         </button>
       </div>

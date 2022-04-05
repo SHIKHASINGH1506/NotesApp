@@ -3,10 +3,11 @@ import './card.css';
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
-import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
+// import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import LabelOutlinedIcon from '@mui/icons-material/LabelOutlined';
 import UnarchiveOutlinedIcon from '@mui/icons-material/UnarchiveOutlined';
 import PushPinIcon from '@mui/icons-material/PushPin'; 
+
 
 import { deleteNote, archiveNote, unArchiveNote, deleteArchiveNote } from 'service';
 import { useToast } from 'custom-hooks/useToast';
@@ -19,8 +20,15 @@ export const Card = ({
   pinHandler 
   }) => {
 
-  const {title, body, _id, isArchive, isPinned} = noteData;
-  const {dispatch, state : {notes, trash, archives}} = useNote();
+  const {title, body, _id, isArchive, isPinned, bgColor} = noteData;
+  const {
+    dispatch, 
+    state : {
+      notes, 
+      trash, 
+      archives
+    }} = useNote();
+
   const {showToast} = useToast();
   const pinIcon = isPinned ? <PushPinIcon /> : <PushPinOutlinedIcon />;
 
@@ -63,7 +71,9 @@ export const Card = ({
 
   const archiveIcon = isArchive ? <UnarchiveOutlinedIcon /> : <ArchiveOutlinedIcon />;
   return (
-    <div className="card py-2 px-4" onClick={() => editNoteFocusHandler( _id)}>
+    <div className="card py-2 px-4" 
+      style={{backgroundColor: bgColor}}
+      onClick={() => editNoteFocusHandler( _id)}>
       <div className="card__title-wrapper d-flex items-center justify-between ">
         <div className="card__title">{title}</div>
         <div 
@@ -79,9 +89,6 @@ export const Card = ({
       <div className="card__footer-wrapper d-flex items-center justify-between">
         <div className="small-text light-text">Created on 26/01/2021</div>
         <div className="card__action-icons d-flex justify-between">
-          <div className="d-flex items-center light-text">
-            <ColorLensOutlinedIcon className="mx-2 icon" />
-          </div>
           <div className="d-flex items-center light-text">
             <LabelOutlinedIcon className="mx-2 icon" />
           </div>

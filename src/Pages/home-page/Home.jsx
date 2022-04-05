@@ -27,7 +27,6 @@ export const Home = () => {
     dispatch
   } = useNote();
   const {showToast} = useToast();
-  // const [pinned, setPinForNewNote] = useState(false);
 
   const handleEditFormFocus = (id) => {
     dispatch({
@@ -41,7 +40,7 @@ export const Home = () => {
   }
 
   // function to add a new note
-  const addNoteHandler = (e) => {
+  const addNoteHandler = (e, color) => {
     e.preventDefault();
     e.stopPropagation();
     if(!(noteData.title.trim() === '' && noteData.body.trim() === '')) {
@@ -51,6 +50,7 @@ export const Home = () => {
           ...noteData, 
           isArchive: false,
           isPinned: false,
+          bgColor: color,
           createdOn: getFormattedDate()
         }}, 
         showToast);
@@ -132,12 +132,6 @@ export const Home = () => {
       });   
   }
 
-  //function to pin a new note 
-  // const newNotePinHandler = (e) => {
-  //   e.stopPropagation();
-  //   setPinForNewNote(curretnPinState => !curretnPinState);
-  // }
-
   return (
     <div className="wrapper">
       <div className={`overlay ${editFormFocus ? 'visible' : ''}`}>
@@ -149,6 +143,7 @@ export const Home = () => {
               noteData={editNoteData}
               setFields={setEditNoteFields}
               addNoteHandler={editNoteHandler}
+              isAddFrom={false}
             />
           }
         </div>
@@ -170,6 +165,7 @@ export const Home = () => {
                       noteData={noteData}
                       setFields={setNoteFields}
                       addNoteHandler={addNoteHandler}
+                      isAddFrom={true}
                     />
                 }
               </div>
