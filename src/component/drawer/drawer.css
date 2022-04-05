@@ -43,18 +43,3 @@
 .fixed {
   padding-top: 5rem;
 }
-.label-wrapper{
-  max-width: 100%;
-  border: 1px solid var(--primary-color);
-}
-.label-input{
-  max-width: 100%;
-  border: none;
-  padding: 0.5rem 0.3rem;
-}
-.label-btn{
-  background: white;
-  border: none;
-  color: var(--primary-color);
-  cursor: pointer;
-}
