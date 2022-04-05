@@ -1,7 +1,13 @@
 
 .card {
+  position: relative;
   border-radius: 0.5rem;
+  cursor: pointer;
   background-color: var(--transparent-white);
+}
+.card:hover{
+  transition: 0.3s ease-in-out all;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 .card-container{
   gap: 1rem;
