@@ -1,6 +1,5 @@
 import './home.css';
-import {useState} from 'react';
-import { Drawer, SearchBar, Card, NoteForm } from "component";
+import { Drawer, SearchBar, Card, NoteForm, FilterModal } from "component";
 import { useNote } from 'context';
 import { addNote, editNote } from 'service';
 import { useToast } from 'custom-hooks/useToast';
@@ -18,6 +17,7 @@ export const Home = () => {
       notes,
       addFormFocus,
       editFormFocus,
+      filterFormFocus,
       archiveEditFormFocus
     }, 
     noteData, 
@@ -39,6 +39,16 @@ export const Home = () => {
     setEditNoteData(notes.find(note => note._id===id));
   }
 
+  const handleFilterFocus = () => {
+    dispatch({
+      type: 'SET_NEW_NOTE_FOCUS', 
+      payload: {
+        editFormFocus: false,
+        addFormFocus: false,
+        archiveEditFormFocus: false,
+        filterFormFocus: !filterFormFocus
+      }});
+  }
   // function to add a new note
   const addNoteHandler = (e, color) => {
     e.preventDefault();
@@ -96,6 +106,7 @@ export const Home = () => {
     e.stopPropagation();
     if(!(editNoteData.title.trim() === '' && editNoteData.body.trim() === '')) {
       editNote(dispatch, editNoteData._id, {note: editNoteData}, showToast);
+      showToast('Note updated successfully', 'success');
       setTimeout(() => {
         setEditNoteData(initialNote);
         dispatch({
@@ -135,7 +146,7 @@ export const Home = () => {
   return (
     <div className="wrapper">
       <div className={`overlay ${editFormFocus ? 'visible' : ''}`}>
-        <div className={`edit-container ${editFormFocus ? 'show' : '' }`}>
+        <div className={`modal-wrapper ${editFormFocus ? 'show' : '' }`}>
           {/* Opens modal for edit note */}
           {editFormFocus &&
             <NoteForm 
@@ -149,12 +160,22 @@ export const Home = () => {
         </div>
       </div>
 
+      <div className={`overlay ${filterFormFocus ? 'visible' : ''}`}>
+        <div className={`modal-wrapper ${filterFormFocus ? 'show' : '' }`}>
+          {/* Opens modal for edit note */}
+          {filterFormFocus &&
+            <FilterModal handleFilterFocus={handleFilterFocus}/>
+          }
+        </div>
+      </div>
+
       <div className="container d-flex">
         <Drawer />
         <div className="d-flex justify-center center-body">
           <div className="drawer-app-content">
             <header className="drawer-top-bar">
-              <SearchBar />
+              <SearchBar 
+                handleFilterFocus={handleFilterFocus}/>
             </header>
             <main className="home-page-body">
               <div className="card-container">

@@ -22,10 +22,12 @@
   z-index: 4000;
   transition: opacity 0.218s ease-in;
 }
-.edit-container{
+.modal-wrapper{
   position: fixed;
   z-index: 4001;
   opacity: 0;
+  max-width: 400px;
+  width: 100%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);

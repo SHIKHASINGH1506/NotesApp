@@ -22,7 +22,7 @@ export const Card = ({
   pinHandler 
   }) => {
 
-  const {title, body, _id, isArchive, isPinned, bgColor, tags} = noteData;
+  const {title, body, _id, isArchive, isPinned, bgColor, tags, createdOn} = noteData;
   const {
     dispatch, 
     state : {
@@ -121,7 +121,7 @@ export const Card = ({
       </div>
       }
       <div className="card__footer-wrapper d-flex items-center justify-between">
-        <div className="small-text light-text">Created on 26/01/2021</div>
+        <div className="small-text light-text">Created on: {createdOn}</div>
         <div className="card__action-icons d-flex justify-between">
           <div className="d-flex items-center light-text">
             <LabelOutlinedIcon 

@@ -6,3 +6,4 @@ export {NoteForm} from './text-card/NoteForm';
 export { ColorPallet } from './color-pallet/ColorPallet';
 export { LabelInput } from './label/LabelInput';
 export { Label } from './label/Label';
+export { FilterModal } from './filter-modal/FilterModal';

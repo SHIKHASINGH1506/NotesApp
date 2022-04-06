@@ -71,7 +71,7 @@ return (
   <div className="wrapper">
     {/* Opens modal for edit note */}
     <div className={`overlay ${archiveEditFormFocus ? 'visible' : ''}`}>
-      <div className={`edit-container ${archiveEditFormFocus ? 'show' : '' }`}>
+      <div className={`modal-wrapper ${archiveEditFormFocus ? 'show' : '' }`}>
         {archiveEditFormFocus &&
           <NoteForm 
             isForm={!addFormFocus}

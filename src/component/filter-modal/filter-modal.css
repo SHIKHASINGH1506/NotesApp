@@ -1,0 +1,8 @@
+.filter-sort-wrapper {
+  max-width: 400px;
+  width: 100%;
+  position: relative;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  background-color: var(--transparent-white);
+}
