@@ -68,7 +68,7 @@ const editNote = async (dispatch, id, editNoteData, showToast) => {
       throw new Error("Couldn't edit note!");
     }
   } catch (error) {
-    console.log(error.message);
+    console.log(error.response.data);
   }
 }
 
@@ -85,7 +85,7 @@ const deleteNote = async (dispatch, id, showToast) => {
     showToast('Moved to trash.', 'success');
   } catch (error) {
     showToast('Note not deleted!', 'error');
-    console.log(error.message);
+    console.log(error.response.data);
   }
 }
 

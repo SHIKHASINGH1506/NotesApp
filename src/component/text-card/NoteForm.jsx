@@ -6,88 +6,82 @@ import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import LabelOutlinedIcon from '@mui/icons-material/LabelOutlined';
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { ColorPallet } from "component";
 import { useOnClickOutside } from "custom-hooks/useOnClickOutside";
-import { addNote } from 'service/note-service';
-import { useNote } from "context";
-import { useToast } from 'custom-hooks/useToast';
 
 export const NoteForm = (
   {
     isForm,
     noteData,
     setFields,
-    addNoteHandler
+    addNoteHandler,
+    isAddFrom
   }) => {
-  const {
-    dispatch,
-    setNoteData,
-    state: {
-      addFormFocus
-    }
-  } = useNote();
   const ref = useRef();
-  const { showToast } = useToast();
-  const initialNote = {
-    title: '',
-    body: ''
-  };
-  const handler = () => {
-    if (!(noteData.title.trim() === '' && noteData.body.trim() === '')) {
-      addNote(dispatch, { note: noteData }, showToast);
-      setTimeout(() => {
-        setNoteData(initialNote);
-        dispatch({
-          type: 'SET_NEW_NOTE_FOCUS',
-          payload: {
-            addFormFocus: false,
-            editFormFocus: false
-          }
-        })
-      }, 1000)
-    }
-    setNoteData(initialNote);
-    addFormFocus
-      ? dispatch({
-        type: 'SET_NEW_NOTE_FOCUS',
-        payload: {
-          addFormFocus: false,
-          editFormFocus: false
-        }
-      })
-      : "";
-  }
+  const {title, body, bgColor} = noteData;
 
-  useOnClickOutside(ref, handler);
+  const [showOptionForNote, setOption] = useState({
+    showColorPallet: false,
+  });
+  const {showColorPallet} = showOptionForNote;
+
+  const optionHandler = (e, type) => {
+    e.stopPropagation();
+    switch (type) {
+      case "COLOR":
+      setOption(currentOption => ({
+        ...currentOption,
+        showColorPallet: !currentOption.showColorPallet
+      })
+      );
+    }
+  }
+  const [backgroundColor, setBackgroundColor] = useState('');
+  //call this custome hook with different handlers based on if the form is for new note or edit note
+  useOnClickOutside(ref, addNoteHandler);
+
+  const getColor = (e, color) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setBackgroundColor(color);
+  }
 
   return (
     <div
       ref={ref}
     >
       {isForm &&
-        <form className="card py-2 px-4"
-          onSubmit={(e) => addNoteHandler(e)}
+        <form 
+          className="card py-2 px-4"
+          style={{backgroundColor: isAddFrom ? backgroundColor : bgColor}}
+          onSubmit={(e) => addNoteHandler(e, backgroundColor)}
         >
           <div className="card__title-wrapper d-flex items-center justify-between ">
             <textarea
+              style={{backgroundColor: isAddFrom ? backgroundColor : bgColor}}
               className="card__title"
               type="text"
               placeholder="Title"
               name="title"
-              value={noteData.title}
+              value={title}
+              tabIndex="1"
               onChange={(e) => setFields(e)}
             >
             </textarea>
-            <div className="d-flex items-center light-text">
+            <div 
+              className="d-flex items-center light-text mx-2 icon">
               <PushPinOutlinedIcon className="mx-2 icon" />
             </div>
           </div>
           <textarea
+            style={{backgroundColor: isAddFrom ? backgroundColor : bgColor}}
             className="card__content text-light"
             type="text"
             placeholder="Add a note..."
             name="body"
-            value={noteData.body}
+            value={body}
+            tabIndex="2"
             onChange={(e) => setFields(e)}
           >
           </textarea>
@@ -100,17 +94,21 @@ export const NoteForm = (
             </button>
             <div className="card__action-icons d-flex justify-between">
               <div className="d-flex items-center light-text">
-                <ColorLensOutlinedIcon className="mx-2 icon" />
+                <ColorLensOutlinedIcon 
+                  className="mx-2 icon" 
+                  onClick={(e) => optionHandler(e, 'COLOR')}
+                />
+                {showColorPallet && <ColorPallet getColor={getColor} />}
               </div>
               <div className="d-flex items-center light-text">
                 <LabelOutlinedIcon className="mx-2 icon" />
               </div>
-              <div className="d-flex items-center light-text">
+              {/* <div className="d-flex items-center light-text">
                 <DeleteOutlineOutlinedIcon className="mx-2 icon" />
               </div>
               <div className="d-flex items-cente light-text">
                 <ArchiveOutlinedIcon className="mx-2 icon" />
-              </div>
+              </div> */}
             </div>
           </div>
         </form>}

@@ -1,0 +1,30 @@
+.color-pallete {
+  padding: 0.6rem;
+  width: auto;
+  opacity: 1;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background-color: black;
+  justify-content: space-around;
+  position: absolute;
+  top: 105%;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+.color-box{
+  display: inline-flex;
+  width: 30px;
+  height: 30px;
+  position: relative;
+}
+.color-btn{
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+}
+.color-btn:hover{
+  border: 1px solid red;
+}
