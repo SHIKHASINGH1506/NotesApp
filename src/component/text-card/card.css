@@ -59,4 +59,10 @@
 .light-text {
   color: var(--secondary-text-color);
 }
+.badge-label{
+  background-color: var(--light-primary-color);
+}
+.tag-wrapper{
+  gap: 0.3rem;
+}
 

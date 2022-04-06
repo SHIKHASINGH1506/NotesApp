@@ -1,6 +1,6 @@
 import AddIcon from '@mui/icons-material/Add';
 
-const LabelInput = ({ label, addLabelHandler, setlabelField, newFun }) => {
+const LabelInput = ({ label, addLabelHandler, setlabelField }) => {
   return(
     <form onSubmit={addLabelHandler}>
       <div className="label-wrapper d-flex w-full items-center"

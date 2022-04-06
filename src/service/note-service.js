@@ -36,16 +36,15 @@ const addNote = async (dispatch, noteData, showToast) => {
   const token = JSON.parse(localStorage.getItem("token"));
   const Headers = { authorization: token };
   try {
-    const { data :{notes}, status } = await axios.post('/api/notes', noteData, { headers: Headers });
-    if(status>=200 && status<=300){
-      dispatch({type: 'UPDATE_NOTE', payload: {notes}});
-      showToast('Note added!', 'success');
+    const { data :{notes} } = await axios.post('/api/notes', noteData, { headers: Headers });
+    dispatch({
+      type: 'UPDATE_NOTE', 
+      payload: {notes}
+    });
+    showToast('Note added!', 'success');
     }
-    else{
-      showToast('Note not added!', 'error');
-      throw new Error("Couldn't add a new note!");
-    }
-  } catch (error) {
+    catch (error) {
+    showToast('Note not added!', 'error');
     console.log(error.response.data);
   }
 }
@@ -54,21 +53,15 @@ const editNote = async (dispatch, id, editNoteData, showToast) => {
   const token = JSON.parse(localStorage.getItem("token"));
   const Headers = { authorization: token };
   try {
-    const { data :{notes}, status } = await axios.post(`/api/notes/${id}`, editNoteData, { headers: Headers });
-    if(status>=200 && status<=300){
-      dispatch({
-        type: 'UPDATE_NOTE', 
-        payload: {
-          notes
-        }});
-      showToast('Note edited!', 'success');
-    }
-    else{
-      showToast('Note not edited!', 'error');
-      throw new Error("Couldn't edit note!");
-    }
+    const { data :{notes} } = await axios.post(`/api/notes/${id}`, editNoteData, { headers: Headers });
+    dispatch({
+      type: 'UPDATE_NOTE', 
+      payload: {notes}
+    });
+    //showToast('Note edited!', 'success'); 
   } catch (error) {
     console.log(error.response.data);
+    showToast('Note not edited!', 'error');   
   }
 }
 

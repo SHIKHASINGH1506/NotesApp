@@ -62,7 +62,6 @@ const updateArchiveNote = async (dispatch, id, archiveData, showToast) => {
   const Headers = { authorization: token };
   try {
     const { data : {archives} } = await axios.post(`/api/archives/${id}`, archiveData, { headers: Headers });
-    console.log(archives);
     dispatch({
       type: 'UPDATE_ARCHIVE', 
       payload: {

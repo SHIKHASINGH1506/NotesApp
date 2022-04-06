@@ -4,6 +4,7 @@
   left: 0;
   right: 0;
   z-index: 1;
+  background-color: var(--transparent-white);
 }
 .label-wrapper{
   max-width: 100%;
@@ -13,11 +14,14 @@
   max-width: 100%;
   border: none;
   padding: 0.5rem 0.3rem;
-  background: var(--transparent-white);
+  background-color: var(--transparent-white);
 }
 .label-btn{
-  background: var(--transparent-white);
+  background-color: var(--transparent-white);
   border: none;
   color: var(--primary-color);
   cursor: pointer;
+}
+.label-card-list{
+  flex-wrap: wrap;
 }

@@ -22,15 +22,16 @@ export const Card = ({
   pinHandler 
   }) => {
 
-  const {title, body, _id, isArchive, isPinned, bgColor} = noteData;
+  const {title, body, _id, isArchive, isPinned, bgColor, tags} = noteData;
   const {
     dispatch, 
     state : {
-      notes, 
+      notes,
       trash, 
       archives
     }} = useNote();
 
+  // const {tags} = notes;
   const {showToast} = useToast();
   const pinIcon = isPinned ? <PushPinIcon /> : <PushPinOutlinedIcon />;
   const [showOptionForNote, setOption] = useState({
@@ -112,6 +113,13 @@ export const Card = ({
       <div className="card__content text-light">
         {body}
       </div>
+     {tags.length>0 &&
+      <div className="tag-wrapper d-flex">
+        {tags.map(({labelId, label}) => (
+          <div key={labelId} className="badge badge-label rounded-pill">{label}</div>
+        ))}
+      </div>
+      }
       <div className="card__footer-wrapper d-flex items-center justify-between">
         <div className="small-text light-text">Created on 26/01/2021</div>
         <div className="card__action-icons d-flex justify-between">
@@ -120,7 +128,7 @@ export const Card = ({
               className="mx-2 icon"
               onClick={e => optionHandler(e, 'LABEL')}
             />
-            {showLabelEditor && <Label id={_id} />}
+            {showLabelEditor && <Label id={_id} noteData={noteData} />}
           </div>
           <div className="d-flex items-center light-text">
             <DeleteOutlineOutlinedIcon 

@@ -77,14 +77,11 @@ const notesReducer = (state, action) => {
         ...state,
         notes
       }
-    case 'SET_LABEL':
-      
-      const obj = {
+    case 'SET_LABEL': 
+      return {
         ...state,
         labels: [...state.labels, {label: label, id: labelId}],
       }
-      console.log(obj);
-      return obj;
     default: 
       return state;
   }
