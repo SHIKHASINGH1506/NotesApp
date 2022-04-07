@@ -82,10 +82,12 @@ const notesReducer = (state, action) => {
         notes
       }
     case 'SET_LABEL': 
-      return {
+      const obj= {
         ...state,
         labels: [...state.labels, {label: label, id: labelId, isChecked: isChecked}],
       }
+      console.log(obj);
+      return obj;
     default: 
       return state;
   }
