@@ -23,7 +23,8 @@ const notesReducer = (state, action) => {
       archiveEditFormFocus,
       labels,
       label,
-      labelId
+      labelId,
+      isChecked
     }
   } = action;
   switch (type) {
@@ -78,10 +79,12 @@ const notesReducer = (state, action) => {
         notes
       }
     case 'SET_LABEL': 
-      return {
+      const obj= {
         ...state,
-        labels: [...state.labels, {label: label, id: labelId}],
+        labels: [...state.labels, {label: label, id: labelId, isChecked: isChecked}],
       }
+      console.log(obj);
+      return obj;
     default: 
       return state;
   }

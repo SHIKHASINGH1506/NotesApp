@@ -31,16 +31,16 @@ export const Drawer = () => {
       <section className="drawer-menu">
         <ul className="nav-lists d-flex flex-col">
           <li className="nav-item d-flex items-center py-2 px-2">
-            <span className="d-flex items-center active">
+            <Link to='/home' className="d-flex items-center active">
               <HomeOutlinedIcon className="mr-2 icon" />
               Home
-            </span>
+            </Link>
           </li>
           <li className="nav-item d-flex flex-col py-2 px-2">
-            <span className="d-flex items-center">
+            <Link to='/label' className="d-flex items-center">
               <LabelOutlinedIcon className="mr-2 icon" />
               Labels
-            </span>
+            </Link>
             {labels.length> 0 
             && <ul className="label-lists d-flex flex-col items-center">
               {labels.map( ({id, label}) => (
@@ -61,10 +61,10 @@ export const Drawer = () => {
             </Link>
           </li>
           <li className="nav-item d-flex items-center py-2 px-2">
-            <span className="d-flex items-center">
+            <Link to='' className="d-flex items-center">
               <FaceOutlinedIcon className="mr-2 icon" />
               Profile
-            </span>
+            </Link>
           </li>
         </ul>
         <section className="py-2">
