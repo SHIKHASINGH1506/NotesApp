@@ -1,9 +1,10 @@
 import './home.css';
 import { Drawer, SearchBar, NoteForm, NotesList, FilterModal } from "component";
-import { useNote } from 'context';
+import { useNote, useSortFilter } from 'context';
 import { addNote, editNote } from 'service';
 import { useToast } from 'custom-hooks/useToast';
 import { getFormattedDate } from 'utils/getFormatedDate';
+import { getSortedNotes } from 'utils/getSortedNotes';
 
 
 export const Home = () => {
@@ -26,6 +27,7 @@ export const Home = () => {
     setEditNoteData,
     dispatch
   } = useNote();
+  const {sortFilterState: {sortBy}} = useSortFilter();
   const {showToast} = useToast();
 
   const handleEditFormFocus = (id) => {
@@ -39,7 +41,8 @@ export const Home = () => {
     setEditNoteData(notes.find(note => note._id===id));
   }
 
-  const handleFilterFocus = () => {
+  const handleFilterFocus = (e) => {
+    e.stopPropagation();
     dispatch({
       type: 'SET_NEW_NOTE_FOCUS', 
       payload: {

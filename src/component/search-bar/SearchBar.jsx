@@ -15,7 +15,7 @@ export const SearchBar = ({handleFilterFocus}) => {
         id="product"
         placeholder="Search item here"
       />
-      {notes.length > 0 && <button className="search-bar__btn" onClick={() => handleFilterFocus()}>
+      {notes.length > 0 && <button className="search-bar__btn" onClick={(e) => handleFilterFocus(e)}>
         <FilterAltOutlinedIcon className="icon" />
       </button>}
     </div>

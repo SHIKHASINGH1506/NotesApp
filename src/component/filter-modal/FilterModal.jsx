@@ -1,11 +1,11 @@
 import './filter-modal.css';
 import CloseIcon from '@mui/icons-material/Close';
 import { v4 as uuid } from "uuid";
-import {useNote} from 'context';
+import {useSortFilter, sortFilterDispatch, useNote} from 'context';
 
 export const FilterModal = ({handleFilterFocus}) => {
-  const {state: {labels}} = useNote();
-  console.log(labels);
+  const {sortFilterState, sortFilterDispatch } = useSortFilter();
+  const {state:{labels}} = useNote();
   const sortOptions = [
     {
       id: uuid(),
@@ -16,12 +16,12 @@ export const FilterModal = ({handleFilterFocus}) => {
       value: 'date created: earliest'
     }
   ]
-  useEffect(() => {}, [labels])
+  // useEffect(() => {}, [labels])
   return(
     <div className="filter-sort-wrapper py-2 px-4">
       <div className="card__title-wrapper d-flex items-center justify-between">
         <h6>Sort & Filter</h6>
-        <CloseIcon className="icon" onClick={() => handleFilterFocus()}/>
+        <CloseIcon className="icon" onClick={(e) => handleFilterFocus(e)}/>
       </div>
       <div className="sort-option-wrapper">
         <div className="sort-wrapper d-flex flex-col">
@@ -30,7 +30,10 @@ export const FilterModal = ({handleFilterFocus}) => {
             name="sort"
             id="sort"
            // className
-            onChange={(e) => console.log(e.target.value)}
+            onChange={(e) => sortFilterDispatch({
+              type:'SORT_BY',
+              payload:{sortBy: e.target.value}
+            })}
           >
             {sortOptions.map(({id, value}) => (
               <option key={id} value={value}>{value}</option>
