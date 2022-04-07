@@ -40,3 +40,15 @@
   opacity: 1;
   transition: top .13s;
 }
+.mobile-add-note-btn{
+  display: none;
+}
+@media screen and (max-width: 640px){
+  .wrapper{
+    margin: 0 0.5rem;
+  } 
+  .mobile-add-note-btn{
+  margin: auto;
+  display: block;
+  }
+}

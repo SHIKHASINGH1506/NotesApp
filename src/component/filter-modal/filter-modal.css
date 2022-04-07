@@ -5,4 +5,12 @@
   border-radius: 0.5rem;
   cursor: pointer;
   background-color: var(--transparent-white);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4004;
+}
+.clear-filter-btn{
+  justify-content: flex-end;
 }

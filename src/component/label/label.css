@@ -21,6 +21,7 @@
   border: none;
   color: var(--primary-color);
   cursor: pointer;
+  padding: 0.15rem;
 }
 .label-card-list{
   flex-wrap: wrap;

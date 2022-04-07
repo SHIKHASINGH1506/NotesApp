@@ -13,3 +13,13 @@
   max-width: 514px;
   width: 100%;
 }
+@media screen and (max-width: 640px) {
+  .landing-content-wrapper {
+    margin: 2rem 1rem;
+    flex-direction: column;
+  }
+  .landing-wrapper{
+    margin: 1rem 0rem;
+  }
+}
+  

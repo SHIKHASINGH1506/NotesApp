@@ -8,3 +8,4 @@ export { ColorPallet } from './color-pallet/ColorPallet';
 export { LabelInput } from './label/LabelInput';
 export { Label } from './label/Label';
 export { FilterModal } from './filter-modal/FilterModal';
+export { FilterModalPortal } from './filter-modal/FilterModalPortal';

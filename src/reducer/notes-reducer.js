@@ -56,10 +56,12 @@ const notesReducer = (state, action) => {
           archiveEditFormFocus
       }
     case 'UPDATE_NOTE':
-      return {
+      const obj =  {
         ...state,
           notes
       };
+      console.log(obj);
+      return obj;
     case 'MOVE_TO_TRASH': 
       return {
         ...state,
@@ -82,12 +84,10 @@ const notesReducer = (state, action) => {
         notes
       }
     case 'SET_LABEL': 
-      const obj= {
+      return {
         ...state,
         labels: [...state.labels, {label: label, id: labelId, isChecked: isChecked}],
       }
-      console.log(obj);
-      return obj;
     default: 
       return state;
   }

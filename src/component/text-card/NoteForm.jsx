@@ -5,6 +5,7 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import LabelOutlinedIcon from '@mui/icons-material/LabelOutlined';
+import LowPriorityIcon from '@mui/icons-material/LowPriority';
 
 import { useRef, useState } from "react";
 import { ColorPallet } from "component";
@@ -102,6 +103,9 @@ export const NoteForm = (
               </div>
               <div className="d-flex items-center light-text">
                 <LabelOutlinedIcon className="mx-2 icon" />
+              </div>
+              <div className="d-flex items-center light-text">
+                <LowPriorityIcon className="mx-2 icon" />
               </div>
               {/* <div className="d-flex items-center light-text">
                 <DeleteOutlineOutlinedIcon className="mx-2 icon" />

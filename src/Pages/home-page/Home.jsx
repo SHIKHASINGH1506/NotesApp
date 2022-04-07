@@ -4,7 +4,7 @@ import { useNote, useSortFilter } from 'context';
 import { addNote, editNote } from 'service';
 import { useToast } from 'custom-hooks/useToast';
 import { getFormattedDate } from 'utils/getFormatedDate';
-import { getSortedNotes } from 'utils/getSortedNotes';
+import { getFilteredSortedNotes } from 'utils/getFilteredSortedNotes';
 
 
 export const Home = () => {
@@ -16,6 +16,7 @@ export const Home = () => {
   const {
     state: {
       notes,
+      archives,
       addFormFocus,
       editFormFocus,
       filterFormFocus,
@@ -27,7 +28,8 @@ export const Home = () => {
     setEditNoteData,
     dispatch
   } = useNote();
-  const {sortFilterState: {sortBy}} = useSortFilter();
+  console.log(notes, archives);
+  const {sortFilterState: {sortBy, filterBylabels}, searchText, searchHandler} = useSortFilter();
   const {showToast} = useToast();
 
   const handleEditFormFocus = (id) => {
@@ -41,17 +43,17 @@ export const Home = () => {
     setEditNoteData(notes.find(note => note._id===id));
   }
 
-  const handleFilterFocus = (e) => {
-    e.stopPropagation();
-    dispatch({
-      type: 'SET_NEW_NOTE_FOCUS', 
-      payload: {
-        editFormFocus: false,
-        addFormFocus: false,
-        archiveEditFormFocus: false,
-        filterFormFocus: !filterFormFocus
-      }});
-  }
+  // const handleFilterFocus = (e) => {
+  //   e.stopPropagation();
+  //   dispatch({
+  //     type: 'SET_NEW_NOTE_FOCUS', 
+  //     payload: {
+  //       editFormFocus: false,
+  //       addFormFocus: false,
+  //       archiveEditFormFocus: false,
+  //       filterFormFocus: !filterFormFocus
+  //     }});
+  // }
   // function to add a new note
   const addNoteHandler = (e, color) => {
     e.preventDefault();
@@ -145,7 +147,9 @@ export const Home = () => {
         }
       });   
   }
-
+  //const sortedNotes = getSortedNotes(notes, sortBy);
+  const notesAfterFilterSort = getFilteredSortedNotes(notes, filterBylabels, sortBy, searchText);
+  console.log(notesAfterFilterSort); 
   return (
     <div className="wrapper">
       <div className={`overlay ${editFormFocus ? 'visible' : ''}`}>
@@ -162,15 +166,14 @@ export const Home = () => {
           }
         </div>
       </div>
-
+{/* 
       <div className={`overlay ${filterFormFocus ? 'visible' : ''}`}>
         <div className={`modal-wrapper ${filterFormFocus ? 'show' : '' }`}>
-          {/* Opens modal for edit note */}
           {filterFormFocus &&
             <FilterModal handleFilterFocus={handleFilterFocus}/>
           }
         </div>
-      </div>
+      </div> */}
 
       <div className="container d-flex">
         <Drawer />
@@ -178,8 +181,21 @@ export const Home = () => {
           <div className="drawer-app-content">
             <header className="drawer-top-bar">
               <SearchBar 
-                handleFilterFocus={handleFilterFocus}/>
+                // handleFilterFocus={handleFilterFocus}
+                notesType='notes'/>
             </header>
+            <button 
+              className="bttn bttn-primary my-2 mobile-add-note-btn"
+              onClick={() => dispatch({
+                  type: 'SET_NEW_NOTE_FOCUS',
+                  payload: {
+                    editFormFocus: false,
+                    addFormFocus: !addFormFocus
+                  }
+              })}
+            >
+              Create New Note
+            </button>
             <main className="home-page-body">
               <div className="card-container">
                 {/* opens modal for add note */}
@@ -193,10 +209,10 @@ export const Home = () => {
                     />
                 }
               </div>
-              {notes.length> 0 
+              {notesAfterFilterSort.length> 0 
                 ?
                 <NotesList 
-                  notes={notes}
+                  notes={notesAfterFilterSort}
                   editNoteFocusHandler={handleEditFormFocus}
                 />
                 : (<div className="no-notes-container">

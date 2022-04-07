@@ -1,7 +1,8 @@
 import { Drawer, SearchBar, NoteForm, NotesList } from "component";
-import { useNote } from "context";
+import { useNote, useSortFilter } from "context";
 import { updateArchiveNote } from 'service';
 import {useToast} from 'custom-hooks/useToast';
+import { getFilteredSortedNotes } from 'utils/getFilteredSortedNotes';
 
 const Archive = () => {
 const {
@@ -15,6 +16,7 @@ const {
   archiveNoteData,
   setArchiveNoteData,
 } = useNote();
+const {sortFilterState: {sortBy, filterBylabels}, searchText, searchHandler} = useSortFilter();
 const initialNote = {
   title: '',
   body: ''
@@ -66,7 +68,7 @@ const editNoteHandler = (e) => {
         addFormFocus: false, 
     }});
 }
-
+const notesAfterFilterSort = getFilteredSortedNotes(archives, filterBylabels, sortBy, searchText);
 return (
   <div className="wrapper">
     {/* Opens modal for edit note */}
@@ -91,10 +93,10 @@ return (
             <SearchBar />
           </header>
           <main className="home-page-body">
-            {archives.length > 0
+            {notesAfterFilterSort.length > 0
               ? 
               <NotesList 
-                notes={archives}
+                notes={notesAfterFilterSort}
                 editNoteFocusHandler={handleArchieveEditFormFocus}
               />
               : (<div className="no-notes-container">
