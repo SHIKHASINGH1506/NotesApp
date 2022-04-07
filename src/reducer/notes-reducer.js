@@ -2,6 +2,7 @@ const initialNoteState = {
   notes: [],
   trash: [],
   archives: [],
+  labels: [],
   loading: false,
   error: null,
   addFormFocus: false,
@@ -19,7 +20,11 @@ const notesReducer = (state, action) => {
       error,
       addFormFocus,
       editFormFocus,
-      archiveEditFormFocus
+      archiveEditFormFocus,
+      labels,
+      label,
+      labelId,
+      isChecked
     }
   } = action;
   switch (type) {
@@ -73,6 +78,13 @@ const notesReducer = (state, action) => {
         ...state,
         notes
       }
+    case 'SET_LABEL': 
+      const obj= {
+        ...state,
+        labels: [...state.labels, {label: label, id: labelId, isChecked: isChecked}],
+      }
+      console.log(obj);
+      return obj;
     default: 
       return state;
   }

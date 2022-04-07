@@ -1,4 +1,9 @@
 .color-pallete {
+  position: absolute;
+  top: 105%;
+  left: 0;
+  right: 0;
+  z-index: 1;
   padding: 0.6rem;
   width: auto;
   opacity: 1;
@@ -6,11 +11,6 @@
   border-radius: 10px;
   background-color: black;
   justify-content: space-around;
-  position: absolute;
-  top: 105%;
-  left: 0;
-  right: 0;
-  z-index: 1;
 }
 .color-box{
   display: inline-flex;

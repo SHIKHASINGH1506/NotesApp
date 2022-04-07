@@ -1,15 +1,19 @@
 import { Routes, Route } from "react-router-dom";
-import { LandingPage, Home, Login, Signup, Trash, Archive } from "Pages";
+import { LandingPage, Home, Login, Signup, Trash, Archive, Label } from "Pages";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 const AppRoute = () => {
   return (
     <Routes>
-      <Route path='/' element={<LandingPage />} />
-      <Route path='/home' element={<Home />} />
       <Route path='/login' element={<Login />} />
       <Route path='/signup' element={<Signup />} />
-      <Route path='/trash' element={<Trash />} />
-      <Route path='/archive' element={<Archive />} />
+      <Route path='/' element={<LandingPage />} />
+      <Route path='/' element={<ProtectedRoute />} >
+        <Route path='/home' element={<Home />} />
+        <Route path='/label' element={<Label />} />
+        <Route path='/trash' element={<Trash />} />
+        <Route path='/archive' element={<Archive />} />
+      </Route>
     </Routes>
   );
 }

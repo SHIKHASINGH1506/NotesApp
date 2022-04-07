@@ -1,6 +1,5 @@
 import './home.css';
-import {useState} from 'react';
-import { Drawer, SearchBar, Card, NoteForm } from "component";
+import { Drawer, SearchBar, NoteForm, NotesList } from "component";
 import { useNote } from 'context';
 import { addNote, editNote } from 'service';
 import { useToast } from 'custom-hooks/useToast';
@@ -170,16 +169,11 @@ export const Home = () => {
                 }
               </div>
               {notes.length> 0 
-                ?(<div className="notes-container d-flex flex-col">
-                  {notes.map(note => 
-                    <Card 
-                      noteData={note} 
-                      key={note._id} 
-                      editNoteFocusHandler={handleEditFormFocus}
-                      pinHandler={(e) => pinHandler(e, note._id)}
-                    />
-                  )}
-                 </div>)
+                ?
+                <NotesList 
+                  notes={notes}
+                  editNoteFocusHandler={handleEditFormFocus}
+                />
                 : (<div className="no-notes-container">
                     <h5>Notes you add appear here</h5>
                   </div>)

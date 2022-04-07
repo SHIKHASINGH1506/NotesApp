@@ -1,4 +1,4 @@
-import { Drawer, SearchBar, Card, NoteForm } from "component";
+import { Drawer, SearchBar, NoteForm, NotesList } from "component";
 import { useNote } from "context";
 import { updateArchiveNote } from 'service';
 import {useToast} from 'custom-hooks/useToast';
@@ -92,15 +92,11 @@ return (
           </header>
           <main className="home-page-body">
             {archives.length > 0
-              ? (<div className="notes-container d-flex flex-col">
-                {archives.map(note =>
-                  <Card
-                    noteData={note}
-                    key={note._id}
-                    editNoteFocusHandler={handleArchieveEditFormFocus}
-                  />
-                )}
-              </div>)
+              ? 
+              <NotesList 
+                notes={archives}
+                editNoteFocusHandler={handleArchieveEditFormFocus}
+              />
               : (<div className="no-notes-container">
                 <h5>Notes you add in archive appear here</h5>
               </div>)

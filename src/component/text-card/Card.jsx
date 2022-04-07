@@ -10,6 +10,8 @@ import PushPinIcon from '@mui/icons-material/PushPin';
 
 
 import { deleteNote, archiveNote, unArchiveNote, deleteArchiveNote } from 'service';
+import { useState} from 'react';
+import { Label } from 'component';
 import { useToast } from 'custom-hooks/useToast';
 import { useNote } from 'context';
 
@@ -20,17 +22,24 @@ export const Card = ({
   pinHandler 
   }) => {
 
-  const {title, body, _id, isArchive, isPinned, bgColor} = noteData;
+  const {title, body, _id, isArchive, isPinned, bgColor, tags} = noteData;
   const {
     dispatch, 
     state : {
-      notes, 
+      notes,
       trash, 
       archives
     }} = useNote();
 
+  // const {tags} = notes;
   const {showToast} = useToast();
   const pinIcon = isPinned ? <PushPinIcon /> : <PushPinOutlinedIcon />;
+  const [showOptionForNote, setOption] = useState({
+    showColorPallet: false,
+    showLabelEditor: false
+  });
+
+  const {showColorPallet, showLabelEditor} = showOptionForNote;
 
   const deleteNoteHandler = (e, id) => {
     e.stopPropagation();
@@ -69,6 +78,24 @@ export const Card = ({
       : archiveNote(dispatch, id, archiveData, showToast);   
   }
 
+  const optionHandler = (e, type) => {
+    e.stopPropagation();
+    switch (type) {
+      case "COLOR":
+        setOption(currentOption => ({
+          ...currentOption,
+          showColorPallet: !currentOption.showColorPallet
+        })
+        );
+      case "LABEL":
+        setOption(currentOption => ({
+          ...currentOption,
+          showLabelEditor: !currentOption.showLabelEditor
+        })
+        );
+    }
+  }
+
   const archiveIcon = isArchive ? <UnarchiveOutlinedIcon /> : <ArchiveOutlinedIcon />;
   return (
     <div className="card py-2 px-4" 
@@ -86,11 +113,22 @@ export const Card = ({
       <div className="card__content text-light">
         {body}
       </div>
+     {tags.length>0 &&
+      <div className="tag-wrapper d-flex">
+        {tags.map(({labelId, label}) => (
+          <div key={labelId} className="badge badge-label rounded-pill">{label}</div>
+        ))}
+      </div>
+      }
       <div className="card__footer-wrapper d-flex items-center justify-between">
         <div className="small-text light-text">Created on 26/01/2021</div>
         <div className="card__action-icons d-flex justify-between">
           <div className="d-flex items-center light-text">
-            <LabelOutlinedIcon className="mx-2 icon" />
+            <LabelOutlinedIcon 
+              className="mx-2 icon"
+              onClick={e => optionHandler(e, 'LABEL')}
+            />
+            {showLabelEditor && <Label id={_id} noteData={noteData} />}
           </div>
           <div className="d-flex items-center light-text">
             <DeleteOutlineOutlinedIcon 
