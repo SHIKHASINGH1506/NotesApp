@@ -3,7 +3,6 @@ const sortFilterInitialState = {
   filterBylabels: []
 }
 const sortFilterReducer = (state, action) => {
-  console.log(action)
   const {
     type,
     payload:{

@@ -23,7 +23,6 @@ const SortFilterProvider = ({children}) => {
 			);
 			return foundLabel ? foundLabel : { id, label, filtered: false };
 		});
-    console.log(newLabel);
 		sortFilterDispatch({ type: "FILTER_BY_LABELS", payload: { filterBylabels: newLabel } });
   }, [labels]);
 
