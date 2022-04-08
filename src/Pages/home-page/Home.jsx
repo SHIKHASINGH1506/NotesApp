@@ -1,5 +1,5 @@
 import './home.css';
-import { Drawer, SearchBar, NoteForm, NotesList, FilterModal } from "component";
+import { Drawer, SearchBar, NoteForm, NotesList, AddNotePortal } from "component";
 import { useNote, useSortFilter } from 'context';
 import { addNote, editNote } from 'service';
 import { useToast } from 'custom-hooks/useToast';
@@ -28,7 +28,6 @@ export const Home = () => {
     setEditNoteData,
     dispatch
   } = useNote();
-  console.log(notes, archives);
   const {sortFilterState: {sortBy, filterBylabels}, searchText, searchHandler} = useSortFilter();
   const {showToast} = useToast();
 
@@ -42,60 +41,6 @@ export const Home = () => {
       }});
     setEditNoteData(notes.find(note => note._id===id));
   }
-
-  // const handleFilterFocus = (e) => {
-  //   e.stopPropagation();
-  //   dispatch({
-  //     type: 'SET_NEW_NOTE_FOCUS', 
-  //     payload: {
-  //       editFormFocus: false,
-  //       addFormFocus: false,
-  //       archiveEditFormFocus: false,
-  //       filterFormFocus: !filterFormFocus
-  //     }});
-  // }
-  // function to add a new note
-  const addNoteHandler = (e, color) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if(!(noteData.title.trim() === '' && noteData.body.trim() === '')) {
-      addNote(
-        dispatch, 
-        {note: {
-          ...noteData, 
-          isArchive: false,
-          isPinned: false,
-          bgColor: color,
-          createdOn: getFormattedDate()
-        }}, 
-        showToast);
-      setTimeout(() => {
-        setNoteData(initialNote);
-        dispatch({
-          type: 'SET_NEW_NOTE_FOCUS', 
-          payload: {
-            editFormFocus: false,
-            addFormFocus: false
-          }});
-      }, 1000)
-    }
-    setNoteData(initialNote);
-    dispatch({
-      type: 'SET_NEW_NOTE_FOCUS', 
-      payload: {
-        editFormFocus: false,
-        addFormFocus: false
-      }});
-  }
-
-  // function to set add note fields
-  const setNoteFields = (e) => {
-    const {name, value} = e.target;
-    setNoteData({
-      ...noteData,
-      [name]: value
-    });
-  }
   //function to set edit note fields
   const setEditNoteFields = (e) => {
     const {name, value} = e.target;
@@ -104,7 +49,6 @@ export const Home = () => {
       [name]: value
     });
   }
-
   //fucntion to edit note
   const editNoteHandler = (e) => {
     e.preventDefault();
@@ -147,9 +91,7 @@ export const Home = () => {
         }
       });   
   }
-  //const sortedNotes = getSortedNotes(notes, sortBy);
   const notesAfterFilterSort = getFilteredSortedNotes(notes, filterBylabels, sortBy, searchText);
-  console.log(notesAfterFilterSort); 
   return (
     <div className="wrapper">
       <div className={`overlay ${editFormFocus ? 'visible' : ''}`}>
@@ -166,14 +108,6 @@ export const Home = () => {
           }
         </div>
       </div>
-{/* 
-      <div className={`overlay ${filterFormFocus ? 'visible' : ''}`}>
-        <div className={`modal-wrapper ${filterFormFocus ? 'show' : '' }`}>
-          {filterFormFocus &&
-            <FilterModal handleFilterFocus={handleFilterFocus}/>
-          }
-        </div>
-      </div> */}
 
       <div className="container d-flex">
         <Drawer />
@@ -181,7 +115,6 @@ export const Home = () => {
           <div className="drawer-app-content">
             <header className="drawer-top-bar">
               <SearchBar 
-                // handleFilterFocus={handleFilterFocus}
                 notesType='notes'/>
             </header>
             <button 
@@ -197,17 +130,8 @@ export const Home = () => {
               Create New Note
             </button>
             <main className="home-page-body">
-              <div className="card-container">
-                {/* opens modal for add note */}
-                {addFormFocus
-                  && <NoteForm 
-                      isForm={addFormFocus}
-                      noteData={noteData}
-                      setFields={setNoteFields}
-                      addNoteHandler={addNoteHandler}
-                      isAddFrom={true}
-                    />
-                }
+               {addFormFocus && <AddNotePortal/>}
+               <div className="card-container" id="addPortal"> 
               </div>
               {notesAfterFilterSort.length> 0 
                 ?

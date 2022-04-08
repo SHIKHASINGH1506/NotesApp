@@ -79,7 +79,7 @@ export const Drawer = () => {
             type: 'SET_NEW_NOTE_FOCUS',
             payload: {
               editFormFocus: false,
-              addFormFocus: !addFormFocus
+              addFormFocus: true
             }
           })}>
           Create New Note

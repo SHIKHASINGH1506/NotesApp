@@ -10,6 +10,7 @@ import LowPriorityIcon from '@mui/icons-material/LowPriority';
 import { useRef, useState } from "react";
 import { ColorPallet } from "component";
 import { useOnClickOutside } from "custom-hooks/useOnClickOutside";
+import { Label } from 'component';
 
 export const NoteForm = (
   {
@@ -20,7 +21,7 @@ export const NoteForm = (
     isAddFrom
   }) => {
   const ref = useRef();
-  const {title, body, bgColor} = noteData;
+  const {title, body, bgColor, _id} = noteData;
 
   const [showOptionForNote, setOption] = useState({
     showColorPallet: false,
@@ -101,9 +102,9 @@ export const NoteForm = (
                 />
                 {showColorPallet && <ColorPallet getColor={getColor} />}
               </div>
-              <div className="d-flex items-center light-text">
-                <LabelOutlinedIcon className="mx-2 icon" />
-              </div>
+              {/* <div className="d-flex items-center light-text">
+                <LabelOutlinedIcon className="mx-2 icon"/>
+              </div> */}
               <div className="d-flex items-center light-text">
                 <LowPriorityIcon className="mx-2 icon" />
               </div>

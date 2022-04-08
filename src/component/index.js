@@ -9,3 +9,4 @@ export { LabelInput } from './label/LabelInput';
 export { Label } from './label/Label';
 export { FilterModal } from './filter-modal/FilterModal';
 export { FilterModalPortal } from './filter-modal/FilterModalPortal';
+export { AddNotePortal } from './text-card/AddNotePortal';

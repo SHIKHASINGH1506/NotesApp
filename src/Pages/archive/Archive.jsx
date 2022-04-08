@@ -1,4 +1,4 @@
-import { Drawer, SearchBar, NoteForm, NotesList } from "component";
+import { Drawer, SearchBar, NoteForm, NotesList, AddNotePortal } from "component";
 import { useNote, useSortFilter } from "context";
 import { updateArchiveNote } from 'service';
 import {useToast} from 'custom-hooks/useToast';
@@ -93,6 +93,8 @@ return (
             <SearchBar />
           </header>
           <main className="home-page-body">
+            {addFormFocus && <AddNotePortal/>}
+            <div className="card-container" id="addPortal"></div>
             {notesAfterFilterSort.length > 0
               ? 
               <NotesList 
