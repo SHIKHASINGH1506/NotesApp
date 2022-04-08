@@ -3,7 +3,7 @@ import './card.css';
 import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
-// import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
+import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import LabelOutlinedIcon from '@mui/icons-material/LabelOutlined';
 import UnarchiveOutlinedIcon from '@mui/icons-material/UnarchiveOutlined';
 import PushPinIcon from '@mui/icons-material/PushPin'; 
@@ -11,7 +11,7 @@ import PushPinIcon from '@mui/icons-material/PushPin';
 
 import { deleteNote, archiveNote, unArchiveNote, deleteArchiveNote } from 'service';
 import { useState} from 'react';
-import { Label } from 'component';
+import { Label, ColorPallet } from 'component';
 import { useToast } from 'custom-hooks/useToast';
 import { useNote } from 'context';
 
@@ -30,8 +30,6 @@ export const Card = ({
       trash, 
       archives
     }} = useNote();
-
-  // const {tags} = notes;
   const {showToast} = useToast();
   const pinIcon = isPinned ? <PushPinIcon /> : <PushPinOutlinedIcon />;
   const [showOptionForNote, setOption] = useState({
@@ -82,18 +80,36 @@ export const Card = ({
     e.stopPropagation();
     switch (type) {
       case "COLOR":
-        setOption(currentOption => ({
+        return setOption(currentOption => ({
           ...currentOption,
-          showColorPallet: !currentOption.showColorPallet
+          showColorPallet: !currentOption.showColorPallet,
         })
         );
       case "LABEL":
-        setOption(currentOption => ({
+        return setOption(currentOption => ({
           ...currentOption,
           showLabelEditor: !currentOption.showLabelEditor
         })
         );
     }
+  }
+  const getColor = (e, color) => {
+    e.preventDefault();
+    e.stopPropagation();
+    isArchive
+     ? dispatch({
+        type:'UPDATE_ARCHIVE',
+        payload:{
+          archives: archives.map(note=> note._id === _id ? {...note, bgColor: color} : note)
+        }
+      })
+    : 
+     dispatch({
+        type:'UPDATE_NOTE',
+        payload:{
+          notes: notes.map(note=> note._id === _id ? {...note, bgColor: color} : note)
+        }
+      })
   }
 
   const archiveIcon = isArchive ? <UnarchiveOutlinedIcon /> : <ArchiveOutlinedIcon />;
@@ -123,6 +139,13 @@ export const Card = ({
       <div className="card__footer-wrapper d-flex items-center justify-between">
         <div className="small-text light-text">Created on: {createdOn}</div>
         <div className="card__action-icons d-flex justify-between">
+          <div className="d-flex items-center light-text">
+            <ColorLensOutlinedIcon 
+              className="mx-2 icon" 
+              onClick={(e) => optionHandler(e, 'COLOR')}
+            />
+            {showColorPallet && <ColorPallet getColor={getColor} />}
+          </div>
           <div className="d-flex items-center light-text">
             <LabelOutlinedIcon 
               className="mx-2 icon"
