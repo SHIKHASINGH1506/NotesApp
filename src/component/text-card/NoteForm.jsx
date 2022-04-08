@@ -1,14 +1,11 @@
 import './card.css';
 // icons import
-import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
+
 import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
-import LabelOutlinedIcon from '@mui/icons-material/LabelOutlined';
 import LowPriorityIcon from '@mui/icons-material/LowPriority';
 
 import { useRef, useState } from "react";
-import { ColorPallet } from "component";
+import { ColorPallet, PriorityBox } from "component";
 import { useOnClickOutside } from "custom-hooks/useOnClickOutside";
 import { Label } from 'component';
 
@@ -21,21 +18,28 @@ export const NoteForm = (
     isAddFrom
   }) => {
   const ref = useRef();
-  const {title, body, bgColor, _id} = noteData;
+  const {title, body, bgColor, _id, priority} = noteData;
 
   const [showOptionForNote, setOption] = useState({
     showColorPallet: false,
+    showPriorityDropdown: false
   });
-  const {showColorPallet} = showOptionForNote;
+  const {showColorPallet, showPriorityDropdown} = showOptionForNote;
 
   const optionHandler = (e, type) => {
     e.stopPropagation();
     switch (type) {
       case "COLOR":
-      setOption(currentOption => ({
-        ...currentOption,
-        showColorPallet: !currentOption.showColorPallet
-      })
+        return setOption(currentOption => ({
+          ...currentOption,
+          showColorPallet: !currentOption.showColorPallet
+        })
+        );
+      case 'PRIORITY':
+        return setOption(currentOption => ({
+          ...currentOption,
+          showPriorityDropdown: !currentOption.showPriorityDropdown
+        })
       );
     }
   }
@@ -94,6 +98,7 @@ export const NoteForm = (
             >
               Add Note
             </button>
+            <p>{priority}</p>
             <div className="card__action-icons d-flex justify-between">
               <div className="d-flex items-center light-text">
                 <ColorLensOutlinedIcon 
@@ -106,7 +111,11 @@ export const NoteForm = (
                 <LabelOutlinedIcon className="mx-2 icon"/>
               </div> */}
               <div className="d-flex items-center light-text">
-                <LowPriorityIcon className="mx-2 icon" />
+                <LowPriorityIcon 
+                  className="mx-2 icon"
+                  onClick={e => optionHandler(e, 'PRIORITY')} 
+                />
+                {showPriorityDropdown && <PriorityBox setFields={setFields} priority={priority}/>}
               </div>
               {/* <div className="d-flex items-center light-text">
                 <DeleteOutlineOutlinedIcon className="mx-2 icon" />

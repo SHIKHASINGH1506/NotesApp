@@ -7,11 +7,12 @@ import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
 import LabelOutlinedIcon from '@mui/icons-material/LabelOutlined';
 import UnarchiveOutlinedIcon from '@mui/icons-material/UnarchiveOutlined';
 import PushPinIcon from '@mui/icons-material/PushPin'; 
+import LowPriorityIcon from '@mui/icons-material/LowPriority';
 
 
-import { deleteNote, archiveNote, unArchiveNote, deleteArchiveNote } from 'service';
+import { deleteNote, archiveNote, unArchiveNote, deleteArchiveNote, updateArchiveNote, editNote } from 'service';
 import { useState} from 'react';
-import { Label, ColorPallet } from 'component';
+import { Label, ColorPallet, PriorityBox} from 'component';
 import { useToast } from 'custom-hooks/useToast';
 import { useNote } from 'context';
 
@@ -22,7 +23,7 @@ export const Card = ({
   pinHandler 
   }) => {
 
-  const {title, body, _id, isArchive, isPinned, bgColor, tags, createdOn} = noteData;
+  const {title, body, _id, isArchive, isPinned, bgColor, tags, createdOn, priority} = noteData;
   const {
     dispatch, 
     state : {
@@ -34,10 +35,11 @@ export const Card = ({
   const pinIcon = isPinned ? <PushPinIcon /> : <PushPinOutlinedIcon />;
   const [showOptionForNote, setOption] = useState({
     showColorPallet: false,
-    showLabelEditor: false
+    showLabelEditor: false,
+    showPriorityDropdown: false
   });
 
-  const {showColorPallet, showLabelEditor} = showOptionForNote;
+  const {showColorPallet, showLabelEditor, showPriorityDropdown} = showOptionForNote;
 
   const deleteNoteHandler = (e, id) => {
     e.stopPropagation();
@@ -75,6 +77,14 @@ export const Card = ({
       ? unArchiveNote(dispatch, id, archiveData, showToast) 
       : archiveNote(dispatch, id, archiveData, showToast);   
   }
+  const setPriorityFields = (e) => {
+    e.stopPropagation();
+    const updatedNote = {...noteData, priority: e.target.value};
+    isArchive 
+      ? updateArchiveNote(dispatch, _id, {archiveNote: updatedNote}, showToast)
+      : editNote(dispatch, _id, {note: updatedNote}, showToast);
+    showToast('Pripority updated successfully', 'success');
+  }
 
   const optionHandler = (e, type) => {
     e.stopPropagation();
@@ -91,25 +101,24 @@ export const Card = ({
           showLabelEditor: !currentOption.showLabelEditor
         })
         );
+      case 'PRIORITY':
+        return setOption(currentOption => ({
+          ...currentOption,
+          showPriorityDropdown: !currentOption.showPriorityDropdown
+        })
+      );
     }
   }
   const getColor = (e, color) => {
     e.preventDefault();
     e.stopPropagation();
+    const coloredNote = {...noteData, bgColor: color};
     isArchive
-     ? dispatch({
-        type:'UPDATE_ARCHIVE',
-        payload:{
-          archives: archives.map(note=> note._id === _id ? {...note, bgColor: color} : note)
-        }
-      })
-    : 
-     dispatch({
-        type:'UPDATE_NOTE',
-        payload:{
-          notes: notes.map(note=> note._id === _id ? {...note, bgColor: color} : note)
-        }
-      })
+      ? updateArchiveNote(dispatch, _id, {archiveNote: coloredNote})
+      : editNote(dispatch, _id, {note: coloredNote});
+  }
+  const priorityPillStyle = {
+    backgroundColor: priority === 'low' ? '#f5f5f5' : priority === 'medium' ? '#ffc107' : '#ff5722',
   }
 
   const archiveIcon = isArchive ? <UnarchiveOutlinedIcon /> : <ArchiveOutlinedIcon />;
@@ -130,11 +139,14 @@ export const Card = ({
         {body}
       </div>
      {tags.length>0 &&
-      <div className="tag-wrapper d-flex">
+      <div className="tag-wrapper d-flex my-2">
         {tags.map(({labelId, label}) => (
           <div key={labelId} className="badge badge-label rounded-pill">{label}</div>
         ))}
       </div>
+      }
+      {priority &&
+          <div className="badge badge-label rounded-pill" style={priorityPillStyle}>{priority}</div>
       }
       <div className="card__footer-wrapper d-flex items-center justify-between">
         <div className="small-text light-text">Created on: {createdOn}</div>
@@ -154,13 +166,20 @@ export const Card = ({
             {showLabelEditor && <Label id={_id} noteData={noteData} />}
           </div>
           <div className="d-flex items-center light-text">
-            <DeleteOutlineOutlinedIcon 
-              className="mx-2 icon" 
-              onClick={(e) => deleteNoteHandler(e, _id)}/>
+            <LowPriorityIcon 
+              className="mx-2 icon"
+              onClick={e => optionHandler(e, 'PRIORITY')} 
+            />
+            {showPriorityDropdown && <PriorityBox setFields={setPriorityFields} priority={priority}/>}
           </div>
           <div className="d-flex items-cente light-text mx-2 icon"
             onClick={(e) => archiveNoteHandler(e, _id, noteData)}>
             {archiveIcon}
+          </div>
+          <div className="d-flex items-center light-text">
+            <DeleteOutlineOutlinedIcon 
+              className="mx-2 icon" 
+              onClick={(e) => deleteNoteHandler(e, _id)}/>
           </div>
         </div>
       </div>

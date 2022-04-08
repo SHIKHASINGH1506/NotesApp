@@ -63,7 +63,6 @@ export const AddNotePortal = () => {
       }
     });
   }
-
   return ReactDOM.createPortal(
     <NoteForm
       isForm={addFormFocus}

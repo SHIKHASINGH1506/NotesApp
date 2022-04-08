@@ -103,9 +103,9 @@ const Label = ({id, noteData}) => {
       {labelEditor.length > 0 &&
         <div className="label-card-list d-flex">
           {labelEditor.map( ({id, label, isChecked}) => (
-            <label key={id} className="list-item" htmlFor={label}>
+            <label key={id} className="list-item p-2" htmlFor={label}>
             <input
-              className="mr-4"
+              className="mr-2"
               type="checkbox"
               id={label}
               name={label}

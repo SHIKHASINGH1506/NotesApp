@@ -1,0 +1,23 @@
+.dropdown-content{
+position: absolute;
+top: 105%;
+left: 50%;
+right: 0;
+z-index: 1;
+padding: 0.6rem;
+width: auto;
+opacity: 1;
+border: 1px solid transparent;
+border-radius: 10px;
+/* background-color: black; */
+justify-content: space-around;
+}
+.dropdown-item{
+  font-size: 0.9rem;
+  border: none;
+  width: 100%;
+}
+select:focus{
+  border: 1px solid var(--primary-color);
+  outline: none;
+}

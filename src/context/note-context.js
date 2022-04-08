@@ -8,7 +8,8 @@ const useNote = () => useContext(NoteContext);
 const NoteProvider = ({ children }) => {
   const initialNote = {
     title: '',
-    body: ''
+    body: '',
+    priority: ''
   };
   const [noteData, setNoteData] = useState(initialNote);
   const [editNoteData, setEditNoteData] = useState();
