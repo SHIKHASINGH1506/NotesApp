@@ -1,13 +1,15 @@
 const sortFilterInitialState = {
   sortBy: '',
-  filterBylabels: []
+  filterBylabels: [],
+  sortByPriority: '',
 }
 const sortFilterReducer = (state, action) => {
   const {
     type,
     payload:{
       sortBy,
-      filterBylabels
+      filterBylabels,
+      sortByPriority
   }} = action;
   
   switch(type){
@@ -26,6 +28,11 @@ const sortFilterReducer = (state, action) => {
         ...state,
         sortBy,
         filterBylabels
+      }
+    case 'SORT_BY_PRIORITY':
+      return {
+        ...state,
+        sortByPriority
       }
   }
 
