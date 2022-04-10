@@ -9,6 +9,7 @@ import { v4 as uuid } from "uuid";
 
 import { LabelInput } from 'component';
 import {useNote} from "context";
+import { useLocation } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useState } from "react";
 
@@ -22,6 +23,7 @@ export const Drawer = () => {
      dispatch({type: 'SET_LABEL', payload: { label: label, labelId: uuid(), isChecked: false} });
      setLabel('');
   }
+  const location = useLocation();
 
   const setLableField = (e) => {
     setLabel(e.target.value);
@@ -73,7 +75,7 @@ export const Drawer = () => {
             addLabelHandler={addLabel}
             setlabelField={setLableField}/>
         </section>
-        <button 
+       {location.pathname!=='/trash' && <button 
           className="bttn bttn-primary w-full my-2" 
           onClick={() => dispatch({
             type: 'SET_NEW_NOTE_FOCUS',
@@ -83,7 +85,7 @@ export const Drawer = () => {
             }
           })}>
           Create New Note
-        </button>
+        </button>}
       </section>
     </aside> 
   )
