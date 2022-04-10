@@ -31,7 +31,7 @@ const notesReducer = (state, action) => {
   } = action;
   switch (type) {
     case 'INIT_NOTES_SUCCESS':
-      return {
+      const obj = {
         ...state,
           notes,
           loading,
@@ -39,6 +39,26 @@ const notesReducer = (state, action) => {
           addFormFocus,
           editFormFocus
       };
+      console.log(obj);
+      return obj;
+      case 'INIT_ARCHIVES_SUCCESS':
+        return {
+          ...state,
+            archives,
+            loading,
+            error,
+            addFormFocus,
+            editFormFocus
+        };
+      case 'INIT_TRASH_SUCCESS':
+        return {
+          ...state,
+            trash,
+            loading,
+            error,
+            addFormFocus,
+            editFormFocus
+        };
     case 'INIT_NOTES_ERROR':
       return{
         ...state, 
@@ -52,16 +72,16 @@ const notesReducer = (state, action) => {
         ...state,
           editFormFocus,
           addFormFocus,
-          filterFormFocus,
+          // filterFormFocus,
           archiveEditFormFocus
       }
     case 'UPDATE_NOTE':
-      const obj =  {
+      return {
         ...state,
-          notes
+          notes,
+          trash: trash || state.trash
+
       };
-      console.log(obj);
-      return obj;
     case 'MOVE_TO_TRASH': 
       return {
         ...state,
@@ -76,7 +96,8 @@ const notesReducer = (state, action) => {
     case 'UPDATE_ARCHIVE':
       return {
         ...state,
-        archives
+        archives,
+        trash: trash||state.trash
       }
     case 'SET_PIN':
       return{
@@ -87,6 +108,18 @@ const notesReducer = (state, action) => {
       return {
         ...state,
         labels: [...state.labels, {label: label, id: labelId, isChecked: isChecked}],
+      }
+    case 'SET_TRASH':
+      return{
+        ...state,
+        trash
+      }
+    case 'RESTORE_FROM_TRASH':  
+      return {
+        ...state,
+        trash,
+        notes,
+        archives
       }
     default: 
       return state;
