@@ -1,25 +1,28 @@
 import './priority-box.css';
-import { useState } from 'react';
-import {useNote} from 'context';
 
 export const PriorityBox = ({priority, setFields}) => {
   const dropdownOption=[
     {
       id: 1,
-      value: 'low'
+      pId: 1,
+      value: 'Low'
     },
     {
       id: 2,
-      value: 'medium'
+      pId: 2,
+      value: 'Medium'
     },
     {
       id: 3,
-      value: 'high'
+      pId:3,
+      value: 'High'
+    },
+    {
+      id: 0,
+      pId:0,
+      value: 'None'
     }
   ];
-  console.log(priority);
-  const {dispatch, state: {notes, archives}} = useNote();
-  const [priorityOption, setPriority] = useState({});
   return(
   <div className="dropdown-content" onClick={e=> e.stopPropagation()}>
     <select 
