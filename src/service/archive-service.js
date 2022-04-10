@@ -1,5 +1,11 @@
 import axios from 'axios';
 
+
+const getAllArchiveNotes = async () => {
+  const token = JSON.parse(localStorage.getItem("token"));
+  const Headers = { authorization: token };
+  return await axios.get('/api/archives', { headers: Headers });
+}
 //api call for adding notes to arcihive
 const archiveNote = async (dispatch, id, archiveData, showToast) => {
   const token = JSON.parse(localStorage.getItem("token"));
@@ -44,11 +50,12 @@ const deleteArchiveNote = async (dispatch, id, showToast) => {
   const token = JSON.parse(localStorage.getItem("token"));
   const Headers = { authorization: token };
   try {
-    const { data :{archives} } = await axios.delete(`/api/archives/delete/${id}`, { headers: Headers });
+    const { data :{archives, trash} } = await axios.delete(`/api/archives/delete/${id}`, { headers: Headers });
     dispatch({
       type: 'UPDATE_ARCHIVE', 
       payload: {
-        archives
+        archives,
+        trash
       }});
     showToast('Deleted! Moved to trash.', 'success');
   } catch (error) {
@@ -74,4 +81,4 @@ const updateArchiveNote = async (dispatch, id, archiveData, showToast) => {
   }
 }
 
-export {archiveNote, unArchiveNote, deleteArchiveNote, updateArchiveNote}
+export {getAllArchiveNotes, archiveNote, unArchiveNote, deleteArchiveNote, updateArchiveNote}
