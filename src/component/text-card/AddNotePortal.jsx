@@ -9,14 +9,15 @@ export const AddNotePortal = () => {
   const {
     noteData,
     setNoteData,
-    state: { 
+    state: {
       addFormFocus,
-      editFormFocus 
+      editFormFocus
     },
     dispatch } = useNote();
   const initialNote = {
     title: '',
-    body: ''
+    body: '',
+    priority: 'None'
   };
 
   const { showToast } = useToast();
@@ -27,22 +28,24 @@ export const AddNotePortal = () => {
       [name]: value
     });
   }
-  const addNoteHandler = (e, color) => {
+  const addNoteHandler = async (e, color) => {
     e.preventDefault();
     e.stopPropagation();
     if (!(noteData.title.trim() === '' && noteData.body.trim() === '')) {
-      addNote(
-        dispatch,
-        {
-          note: {
-            ...noteData,
-            isArchive: false,
-            isPinned: false,
-            bgColor: color,
-            createdOn: getFormattedDate()
-          }
-        },
-        showToast);
+      try {
+        const note = {
+          ...noteData,
+          isArchive: false,
+          isPinned: false,
+          bgColor: color,
+          createdOn: getFormattedDate()
+        }
+        const { data: { notes } } = await addNote({ note: note });
+        dispatch({
+          type: 'UPDATE_NOTE',
+          payload: { notes }
+        });
+      showToast('Note added!', 'success');
       setTimeout(() => {
         setNoteData(initialNote);
         dispatch({
@@ -53,6 +56,11 @@ export const AddNotePortal = () => {
           }
         });
       }, 1000)
+      }
+      catch (error) {
+        showToast('Note not added!', 'error');
+        console.log(error.response.data);
+      }
     }
     setNoteData(initialNote);
     dispatch({
