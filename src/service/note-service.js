@@ -32,48 +32,28 @@ const getNotes = async (dispatch) => {
   }
 }
 
-const addNote = async (dispatch, noteData, showToast) => {
+const addNote = async (noteData) => {
   const token = JSON.parse(localStorage.getItem("token"));
   const Headers = { authorization: token };
-  try {
-    const { data :{notes} } = await axios.post('/api/notes', noteData, { headers: Headers });
-    dispatch({
-      type: 'UPDATE_NOTE', 
-      payload: {notes}
-    });
-    showToast('Note added!', 'success');
-    }
-    catch (error) {
-    showToast('Note not added!', 'error');
-    console.log(error.response.data);
-  }
+  return await axios.post('/api/notes', noteData, { headers: Headers });
 }
 
-const editNote = async (dispatch, id, editNoteData, showToast) => {
+const editNote = async (id, editNoteData) => {
   const token = JSON.parse(localStorage.getItem("token"));
   const Headers = { authorization: token };
-  try {
-    const { data :{notes} } = await axios.post(`/api/notes/${id}`, editNoteData, { headers: Headers });
-    dispatch({
-      type: 'UPDATE_NOTE', 
-      payload: {notes}
-    });
-    //showToast('Note edited!', 'success'); 
-  } catch (error) {
-    console.log(error.response.data);
-    showToast('Note not edited!', 'error');   
-  }
+  return await axios.post(`/api/notes/${id}`, editNoteData, { headers: Headers });
 }
 
 const deleteNote = async (dispatch, id, showToast) => {
   const token = JSON.parse(localStorage.getItem("token"));
   const Headers = { authorization: token };
   try {
-    const { data :{notes} } = await axios.delete(`/api/notes/${id}`, { headers: Headers });
+    const { data :{notes, trash} } = await axios.delete(`/api/notes/${id}`, { headers: Headers });
     dispatch({
       type: 'UPDATE_NOTE', 
       payload: {
-        notes
+        notes, 
+        trash
       }});
     showToast('Moved to trash.', 'success');
   } catch (error) {
