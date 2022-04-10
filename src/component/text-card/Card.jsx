@@ -12,15 +12,16 @@ import RestoreOutlinedIcon from '@mui/icons-material/RestoreOutlined';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 
 
-import { 
-  deleteNote, 
-  archiveNote, 
-  unArchiveNote, 
-  deleteArchiveNote, 
-  updateArchiveNote, 
-  editNote, 
-  restoreFromTrash, 
-  deleteFromTrash} from 'service';
+import {
+  deleteNote,
+  archiveNote,
+  unArchiveNote,
+  deleteArchiveNote,
+  updateArchiveNote,
+  editNote,
+  restoreFromTrash,
+  deleteFromTrash
+} from 'service';
 import { useState } from 'react';
 import { useLocation } from 'react-router';
 import { Label, ColorPallet, PriorityBox } from 'component';
@@ -79,17 +80,18 @@ export const Card = ({
 
   const restoreFromTrashHandler = async (e, id) => {
     e.stopPropagation();
-    try{
-      const { data :{trash, notes, archives} } = await restoreFromTrash(id, showToast);
+    try {
+      const { data: { trash, notes, archives } } = await restoreFromTrash(id, showToast);
       dispatch({
-        type: 'RESTORE_FROM_TRASH', 
+        type: 'RESTORE_FROM_TRASH',
         payload: {
           trash,
           notes,
           archives
-      }});
+        }
+      });
       showToast('Restored from trash', 'success');
-    }catch(error){
+    } catch (error) {
       showToast('Could not restore from trash', 'error');
       console.log(error.response.data);
     }
@@ -135,22 +137,35 @@ export const Card = ({
     }
   }
 
-  const getColor = (e, color) => {
+  const getColor = async (e, color) => {
     e.preventDefault();
     e.stopPropagation();
     const coloredNote = { ...noteData, bgColor: color };
-    isArchive
-      ? updateArchiveNote(dispatch, _id, { archiveNote: coloredNote })
-      : editNote(dispatch, _id, { note: coloredNote });
+    if (isArchive) {
+      updateArchiveNote(dispatch, _id, { archiveNote: coloredNote })
+    }
+    else {
+      try {
+        const { data: { notes } } = await editNote(_id, { note: coloredNote });
+        dispatch({
+          type: 'UPDATE_NOTE',
+          payload: { notes }
+        });
+        showToast('Color changed successfully', 'success');
+      } catch (error) {
+        showToast('Error in color change', 'error');
+        console.log(error.response.data);
+      }
+    }
   }
 
   const priorityPillStyle = {
-    backgroundColor: priority === 'None' 
-      ? '#929191' 
-      : priority === 'Low' 
-        ? '#4a924a' 
-        : priority === 'Medium' 
-          ? '#ffc107' 
+    backgroundColor: priority === 'None'
+      ? '#929191'
+      : priority === 'Low'
+        ? '#4a924a'
+        : priority === 'Medium'
+          ? '#ffc107'
           : '#ff5722'
   }
 

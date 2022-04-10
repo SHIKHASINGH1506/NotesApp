@@ -37,14 +37,21 @@ const Label = ({id, noteData}) => {
   },
   [labels, noteData.tags]);
 
-  const postUpdatedNotes = (updatedNote) => {
+  const postUpdatedNotes = async updatedNote => {
     if(noteData.isArchive){
       updateArchiveNote(dispatch, id, {archiveNote:updatedNote}, showToast)
     }
     else{
-      editNote(dispatch, id, {note:updatedNote}, showToast);
+      try{
+        const { data :{notes} } = await editNote(id, {note:updatedNote},);
+         dispatch({
+           type: 'UPDATE_NOTE', 
+           payload: {notes}
+         });
+       }catch(error){
+         console.log(error.response.data);
+       }
     }
-    showToast('Labels updated successfully', 'success');
   }
 
   const getEditedNote = (actionType, labelid, label) => {
