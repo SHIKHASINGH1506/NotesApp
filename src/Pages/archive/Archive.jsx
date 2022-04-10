@@ -16,7 +16,7 @@ const {
   archiveNoteData,
   setArchiveNoteData,
 } = useNote();
-const {sortFilterState: {sortBy, filterBylabels}, searchText, searchHandler} = useSortFilter();
+const {sortFilterState: {sortBy, filterBylabels, sortByPriority}, searchText, searchHandler} = useSortFilter();
 const initialNote = {
   title: '',
   body: ''
@@ -68,7 +68,7 @@ const editNoteHandler = (e) => {
         addFormFocus: false, 
     }});
 }
-const notesAfterFilterSort = getFilteredSortedNotes(archives, filterBylabels, sortBy, searchText);
+const notesAfterFilterSort = getFilteredSortedNotes(archives, filterBylabels, sortBy, sortByPriority, searchText);
 return (
   <div className="wrapper">
     {/* Opens modal for edit note */}
