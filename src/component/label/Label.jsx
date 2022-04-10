@@ -43,7 +43,7 @@ const Label = ({id, noteData}) => {
     }
     else{
       try{
-        const { data :{notes} } = await editNote(id, {note:updatedNote},);
+        const { data :{notes} } = await editNote(id, {note:updatedNote});
          dispatch({
            type: 'UPDATE_NOTE', 
            payload: {notes}

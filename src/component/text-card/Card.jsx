@@ -104,13 +104,24 @@ export const Card = ({
       : archiveNote(dispatch, id, archiveData, showToast);
   }
 
-  const setPriorityFields = (e) => {
+  const setPriorityFields = async e => {
     e.stopPropagation();
     const updatedNote = { ...noteData, priority: e.target.value };
-    isArchive
-      ? updateArchiveNote(dispatch, _id, { archiveNote: updatedNote }, showToast)
-      : editNote(dispatch, _id, { note: updatedNote }, showToast);
-    showToast('Pripority updated successfully', 'success');
+    if(isArchive)
+     updateArchiveNote(dispatch, _id, { archiveNote: updatedNote }, showToast)
+    else{
+      try{
+        const { data :{notes} } = await editNote(_id, {note:updatedNote});
+         dispatch({
+           type: 'UPDATE_NOTE', 
+           payload: {notes}
+         });
+         showToast('Priority updated', 'success');
+       }catch(error){
+         console.log(error.response.data);
+         showToast('Priority could not update', 'error');
+       }
+    }
   }
 
   const optionHandler = (e, type) => {
