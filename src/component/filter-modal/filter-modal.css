@@ -11,6 +11,9 @@
   transform: translate(-50%, -50%);
   z-index: 4004;
 }
+.sort-wrapper{
+  gap: 1rem;
+}
 .clear-filter-btn{
   justify-content: flex-end;
 }
