@@ -1,14 +1,13 @@
 import './card.css';
 // icons import
-import ArchiveOutlinedIcon from '@mui/icons-material/ArchiveOutlined';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
+
 import ColorLensOutlinedIcon from '@mui/icons-material/ColorLensOutlined';
-import LabelOutlinedIcon from '@mui/icons-material/LabelOutlined';
+import LowPriorityIcon from '@mui/icons-material/LowPriority';
 
 import { useRef, useState } from "react";
-import { ColorPallet } from "component";
+import { ColorPallet, PriorityBox } from "component";
 import { useOnClickOutside } from "custom-hooks/useOnClickOutside";
+import { useNote } from 'context';
 
 export const NoteForm = (
   {
@@ -18,28 +17,47 @@ export const NoteForm = (
     addNoteHandler,
     isAddFrom
   }) => {
+  const {dispatch} = useNote();
   const ref = useRef();
-  const {title, body, bgColor} = noteData;
+  const {title, body, bgColor, _id, priority} = noteData;
 
   const [showOptionForNote, setOption] = useState({
     showColorPallet: false,
+    showPriorityDropdown: false
   });
-  const {showColorPallet} = showOptionForNote;
+  const {showColorPallet, showPriorityDropdown} = showOptionForNote;
 
   const optionHandler = (e, type) => {
     e.stopPropagation();
     switch (type) {
       case "COLOR":
-      setOption(currentOption => ({
-        ...currentOption,
-        showColorPallet: !currentOption.showColorPallet
-      })
+        return setOption(currentOption => ({
+          ...currentOption,
+          showColorPallet: !currentOption.showColorPallet
+        })
+        );
+      case 'PRIORITY':
+        return setOption(currentOption => ({
+          ...currentOption,
+          showPriorityDropdown: !currentOption.showPriorityDropdown
+        })
       );
     }
   }
   const [backgroundColor, setBackgroundColor] = useState('');
+
+  const noteEditOutsideHandler = (e) => {
+    dispatch({
+      type: 'SET_NEW_NOTE_FOCUS',
+      payload: {
+        editFormFocus: false,
+        addFormFocus: false
+      }
+    }); 
+  }
+
   //call this custome hook with different handlers based on if the form is for new note or edit note
-  useOnClickOutside(ref, addNoteHandler);
+  isAddFrom ? useOnClickOutside(ref, addNoteHandler) : useOnClickOutside(ref, noteEditOutsideHandler);
 
   const getColor = (e, color) => {
     e.preventDefault();
@@ -69,10 +87,10 @@ export const NoteForm = (
               onChange={(e) => setFields(e)}
             >
             </textarea>
-            <div 
+            {/* <div 
               className="d-flex items-center light-text mx-2 icon">
               <PushPinOutlinedIcon className="mx-2 icon" />
-            </div>
+            </div> */}
           </div>
           <textarea
             style={{backgroundColor: isAddFrom ? backgroundColor : bgColor}}
@@ -100,15 +118,16 @@ export const NoteForm = (
                 />
                 {showColorPallet && <ColorPallet getColor={getColor} />}
               </div>
-              <div className="d-flex items-center light-text">
-                <LabelOutlinedIcon className="mx-2 icon" />
-              </div>
               {/* <div className="d-flex items-center light-text">
-                <DeleteOutlineOutlinedIcon className="mx-2 icon" />
-              </div>
-              <div className="d-flex items-cente light-text">
-                <ArchiveOutlinedIcon className="mx-2 icon" />
+                <LabelOutlinedIcon className="mx-2 icon"/>
               </div> */}
+              <div className="d-flex items-center light-text">
+                <LowPriorityIcon 
+                  className="mx-2 icon"
+                  onClick={e => optionHandler(e, 'PRIORITY')} 
+                />
+                {showPriorityDropdown && <PriorityBox setFields={setFields} priority={priority}/>}
+              </div>
             </div>
           </div>
         </form>}

@@ -1,8 +1,8 @@
 import { useNote } from 'context';
-import { NotesList, Drawer, SearchBar } from 'component';
+import { NotesList, Drawer, SearchBar, AddNotePortal } from 'component';
 
 const Label = () => {
-  const { state: { labels, notes, archives } } = useNote();
+  const { state: { labels, notes, archives, addFormFocus } } = useNote();
   const notesWithLabels = labels.map(({ id, label }) => {
     const otherNotesWithLabel = notes.reduce(
       (prev, currentNote) =>
@@ -31,6 +31,8 @@ const Label = () => {
               <SearchBar />
             </header>
             <main className="home-page-body">
+            {addFormFocus && <AddNotePortal/>}
+            <div className="card-container" id="addPortal"></div>
               <div className="label-page-wrapper d-flex flex-col">
                 {notesWithLabels.map(({ id, label, otherNotesWithLabel, archivedNotesWithLable }) => (
                   <div className="label-list d-flex flex-col" key={id}>

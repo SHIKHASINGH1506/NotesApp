@@ -37,14 +37,21 @@ const Label = ({id, noteData}) => {
   },
   [labels, noteData.tags]);
 
-  const postUpdatedNotes = (updatedNote) => {
+  const postUpdatedNotes = async updatedNote => {
     if(noteData.isArchive){
       updateArchiveNote(dispatch, id, {archiveNote:updatedNote}, showToast)
     }
     else{
-      editNote(dispatch, id, {note:updatedNote}, showToast);
+      try{
+        const { data :{notes} } = await editNote(id, {note:updatedNote},);
+         dispatch({
+           type: 'UPDATE_NOTE', 
+           payload: {notes}
+         });
+       }catch(error){
+         console.log(error.response.data);
+       }
     }
-    showToast('Labels updated successfully', 'success');
   }
 
   const getEditedNote = (actionType, labelid, label) => {
@@ -103,9 +110,9 @@ const Label = ({id, noteData}) => {
       {labelEditor.length > 0 &&
         <div className="label-card-list d-flex">
           {labelEditor.map( ({id, label, isChecked}) => (
-            <label key={id} className="list-item" htmlFor={label}>
+            <label key={id} className="list-item p-2" htmlFor={label}>
             <input
-              className="mr-4"
+              className="mr-2"
               type="checkbox"
               id={label}
               name={label}

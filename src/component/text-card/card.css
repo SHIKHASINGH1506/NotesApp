@@ -46,6 +46,7 @@
   resize: none;
   width: 100%;
   overflow: hidden;
+  margin: 0.5rem 0 1rem;
 }
 .card__action-icons {
   margin-left: auto;

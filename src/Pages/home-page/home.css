@@ -22,10 +22,12 @@
   z-index: 4000;
   transition: opacity 0.218s ease-in;
 }
-.edit-container{
+.modal-wrapper{
   position: fixed;
   z-index: 4001;
   opacity: 0;
+  max-width: 400px;
+  width: 100%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -37,4 +39,16 @@
 .show{
   opacity: 1;
   transition: top .13s;
+}
+.mobile-add-note-btn{
+  display: none;
+}
+@media screen and (max-width: 640px){
+  .wrapper{
+    margin: 0 0.5rem;
+  } 
+  .mobile-add-note-btn{
+  margin: auto;
+  display: block;
+  }
 }

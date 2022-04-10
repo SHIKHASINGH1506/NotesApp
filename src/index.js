@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import { makeServer } from "./server";
-import { AuthProvider, NoteProvider } from "context"
+import { AuthProvider, NoteProvider, SortFilterProvider } from "context"
 
 
 // Call make Server
@@ -14,7 +14,9 @@ ReactDOM.render(
     <Router>
       <AuthProvider>
         <NoteProvider>
-         <App />
+          <SortFilterProvider>
+            <App />
+          </SortFilterProvider>
         </NoteProvider>
       </AuthProvider>
     </Router>

@@ -1,7 +1,8 @@
-import { Drawer, SearchBar, NoteForm, NotesList } from "component";
-import { useNote } from "context";
+import { Drawer, SearchBar, NoteForm, NotesList, AddNotePortal } from "component";
+import { useNote, useSortFilter } from "context";
 import { updateArchiveNote } from 'service';
 import {useToast} from 'custom-hooks/useToast';
+import { getFilteredSortedNotes } from 'utils/getFilteredSortedNotes';
 
 const Archive = () => {
 const {
@@ -15,6 +16,7 @@ const {
   archiveNoteData,
   setArchiveNoteData,
 } = useNote();
+const {sortFilterState: {sortBy, filterBylabels, sortByPriority}, searchText, searchHandler} = useSortFilter();
 const initialNote = {
   title: '',
   body: ''
@@ -66,12 +68,12 @@ const editNoteHandler = (e) => {
         addFormFocus: false, 
     }});
 }
-
+const notesAfterFilterSort = getFilteredSortedNotes(archives, filterBylabels, sortBy, sortByPriority, searchText);
 return (
   <div className="wrapper">
     {/* Opens modal for edit note */}
     <div className={`overlay ${archiveEditFormFocus ? 'visible' : ''}`}>
-      <div className={`edit-container ${archiveEditFormFocus ? 'show' : '' }`}>
+      <div className={`modal-wrapper ${archiveEditFormFocus ? 'show' : '' }`}>
         {archiveEditFormFocus &&
           <NoteForm 
             isForm={!addFormFocus}
@@ -91,10 +93,12 @@ return (
             <SearchBar />
           </header>
           <main className="home-page-body">
-            {archives.length > 0
+            {addFormFocus && <AddNotePortal/>}
+            <div className="card-container" id="addPortal"></div>
+            {notesAfterFilterSort.length > 0
               ? 
               <NotesList 
-                notes={archives}
+                notes={notesAfterFilterSort}
                 editNoteFocusHandler={handleArchieveEditFormFocus}
               />
               : (<div className="no-notes-container">

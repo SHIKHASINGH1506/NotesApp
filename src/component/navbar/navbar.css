@@ -72,22 +72,6 @@
   .hero-img-wrapper {
     position: relative;
   }
-  /* .text-overlay {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0px;
-    left: 0;
-  }
-  .text-overlay-title {
-    color: black;
-    letter-spacing: 2px;
-  } */
-  
   /* sidebar to be developed */
   .navbar-collapse {
     display: block;
@@ -124,13 +108,16 @@
   .profile-icon {
     font-size: 1.65rem;
   }
+  .left-icon{
+    margin-left: auto;
+  }
   
   /* badge */
   .badge-container {
     position: relative;
     box-sizing: border-box;
   }
-  @media only screen and (max-width: 1024px) {
+  @media only screen and (max-width: 640px) {
     .navbar-nav-collapse {
       display: none;
     }
@@ -153,5 +140,11 @@
     .bttn-lg {
       font-size: 1rem;
     }
+  }
+  @media screen and (max-width: 640px) {
+   .navbar-wrapper{
+     margin: 0 0.5rem;
+   }
+    
   }
   

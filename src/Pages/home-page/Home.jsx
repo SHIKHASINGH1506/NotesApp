@@ -1,9 +1,9 @@
 import './home.css';
-import { Drawer, SearchBar, NoteForm, NotesList } from "component";
-import { useNote } from 'context';
-import { addNote, editNote } from 'service';
+import { Drawer, SearchBar, NoteForm, NotesList, AddNotePortal } from "component";
+import { useNote, useSortFilter } from 'context';
+import { editNote } from 'service';
 import { useToast } from 'custom-hooks/useToast';
-import { getFormattedDate } from 'utils/getFormatedDate';
+import { getFilteredSortedNotes } from 'utils/getFilteredSortedNotes';
 
 
 export const Home = () => {
@@ -19,14 +19,12 @@ export const Home = () => {
       editFormFocus,
       archiveEditFormFocus
     }, 
-    noteData, 
-    setNoteData, 
     editNoteData,
     setEditNoteData,
     dispatch
   } = useNote();
+  const {sortFilterState: {sortBy, filterBylabels, sortByPriority}, searchText, searchHandler} = useSortFilter();
   const {showToast} = useToast();
-
   const handleEditFormFocus = (id) => {
     dispatch({
       type: 'SET_NEW_NOTE_FOCUS', 
@@ -37,49 +35,6 @@ export const Home = () => {
       }});
     setEditNoteData(notes.find(note => note._id===id));
   }
-
-  // function to add a new note
-  const addNoteHandler = (e, color) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if(!(noteData.title.trim() === '' && noteData.body.trim() === '')) {
-      addNote(
-        dispatch, 
-        {note: {
-          ...noteData, 
-          isArchive: false,
-          isPinned: false,
-          bgColor: color,
-          createdOn: getFormattedDate()
-        }}, 
-        showToast);
-      setTimeout(() => {
-        setNoteData(initialNote);
-        dispatch({
-          type: 'SET_NEW_NOTE_FOCUS', 
-          payload: {
-            editFormFocus: false,
-            addFormFocus: false
-          }});
-      }, 1000)
-    }
-    setNoteData(initialNote);
-    dispatch({
-      type: 'SET_NEW_NOTE_FOCUS', 
-      payload: {
-        editFormFocus: false,
-        addFormFocus: false
-      }});
-  }
-
-  // function to set add note fields
-  const setNoteFields = (e) => {
-    const {name, value} = e.target;
-    setNoteData({
-      ...noteData,
-      [name]: value
-    });
-  }
   //function to set edit note fields
   const setEditNoteFields = (e) => {
     const {name, value} = e.target;
@@ -88,13 +43,18 @@ export const Home = () => {
       [name]: value
     });
   }
-
   //fucntion to edit note
-  const editNoteHandler = (e) => {
+  const editNoteHandler = async e => {
     e.preventDefault();
     e.stopPropagation();
-    if(!(editNoteData.title.trim() === '' && editNoteData.body.trim() === '')) {
-      editNote(dispatch, editNoteData._id, {note: editNoteData}, showToast);
+    try{
+
+      const { data :{notes} } = await editNote(editNoteData._id, {note: editNoteData});
+      dispatch({
+        type: 'UPDATE_NOTE', 
+        payload: {notes}
+      });
+      showToast('Note updated successfully', 'success');
       setTimeout(() => {
         setEditNoteData(initialNote);
         dispatch({
@@ -104,14 +64,9 @@ export const Home = () => {
             addFormFocus: false
           }});
       }, 1000)
+    }catch(error){
+      showToast('Could not update note', 'error');
     }
-    setEditNoteData(initialNote);
-    dispatch({
-      type: 'SET_NEW_NOTE_FOCUS', 
-      payload: {
-        editFormFocus: false,
-        addFormFocus: false
-    }});
   }
 
   //function to pin existing note
@@ -130,11 +85,11 @@ export const Home = () => {
         }
       });   
   }
-
+  const notesAfterFilterSort = getFilteredSortedNotes(notes, filterBylabels, sortBy, sortByPriority, searchText);
   return (
     <div className="wrapper">
       <div className={`overlay ${editFormFocus ? 'visible' : ''}`}>
-        <div className={`edit-container ${editFormFocus ? 'show' : '' }`}>
+        <div className={`modal-wrapper ${editFormFocus ? 'show' : '' }`}>
           {/* Opens modal for edit note */}
           {editFormFocus &&
             <NoteForm 
@@ -153,25 +108,29 @@ export const Home = () => {
         <div className="d-flex justify-center center-body">
           <div className="drawer-app-content">
             <header className="drawer-top-bar">
-              <SearchBar />
+              <SearchBar 
+                notesType='notes'/>
             </header>
+            <button 
+              className="bttn bttn-primary my-2 mobile-add-note-btn"
+              onClick={() => dispatch({
+                  type: 'SET_NEW_NOTE_FOCUS',
+                  payload: {
+                    editFormFocus: false,
+                    addFormFocus: !addFormFocus
+                  }
+              })}
+            >
+              Create New Note
+            </button>
             <main className="home-page-body">
-              <div className="card-container">
-                {/* opens modal for add note */}
-                {addFormFocus
-                  && <NoteForm 
-                      isForm={addFormFocus}
-                      noteData={noteData}
-                      setFields={setNoteFields}
-                      addNoteHandler={addNoteHandler}
-                      isAddFrom={true}
-                    />
-                }
+               {addFormFocus && <AddNotePortal/>}
+               <div className="card-container" id="addPortal"> 
               </div>
-              {notes.length> 0 
+              {notesAfterFilterSort.length> 0 
                 ?
                 <NotesList 
-                  notes={notes}
+                  notes={notesAfterFilterSort}
                   editNoteFocusHandler={handleEditFormFocus}
                 />
                 : (<div className="no-notes-container">

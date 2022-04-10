@@ -47,7 +47,7 @@ const ColorPallet = ({getColor}) => {
 return (
   <div className="color-pallete d-flex">
     {colors.map(color => (
-      <div className="color-box justify-center items-center">
+      <div className="color-box justify-center items-center" key={color.id}>
         <button 
           className="color-btn"
           onClick={(e) => getColor(e, color.color)}
