@@ -7,7 +7,7 @@ import LowPriorityIcon from '@mui/icons-material/LowPriority';
 import { useRef, useState } from "react";
 import { ColorPallet, PriorityBox } from "component";
 import { useOnClickOutside } from "custom-hooks/useOnClickOutside";
-import { Label } from 'component';
+import { useNote } from 'context';
 
 export const NoteForm = (
   {
@@ -17,6 +17,7 @@ export const NoteForm = (
     addNoteHandler,
     isAddFrom
   }) => {
+  const {dispatch} = useNote();
   const ref = useRef();
   const {title, body, bgColor, _id, priority} = noteData;
 
@@ -44,8 +45,19 @@ export const NoteForm = (
     }
   }
   const [backgroundColor, setBackgroundColor] = useState('');
+
+  const noteEditOutsideHandler = (e) => {
+    dispatch({
+      type: 'SET_NEW_NOTE_FOCUS',
+      payload: {
+        editFormFocus: false,
+        addFormFocus: false
+      }
+    }); 
+  }
+
   //call this custome hook with different handlers based on if the form is for new note or edit note
-  useOnClickOutside(ref, addNoteHandler);
+  isAddFrom ? useOnClickOutside(ref, addNoteHandler) : useOnClickOutside(ref, noteEditOutsideHandler);
 
   const getColor = (e, color) => {
     e.preventDefault();
@@ -75,10 +87,10 @@ export const NoteForm = (
               onChange={(e) => setFields(e)}
             >
             </textarea>
-            <div 
+            {/* <div 
               className="d-flex items-center light-text mx-2 icon">
               <PushPinOutlinedIcon className="mx-2 icon" />
-            </div>
+            </div> */}
           </div>
           <textarea
             style={{backgroundColor: isAddFrom ? backgroundColor : bgColor}}
@@ -98,7 +110,6 @@ export const NoteForm = (
             >
               Add Note
             </button>
-            <p>{priority}</p>
             <div className="card__action-icons d-flex justify-between">
               <div className="d-flex items-center light-text">
                 <ColorLensOutlinedIcon 
@@ -117,12 +128,6 @@ export const NoteForm = (
                 />
                 {showPriorityDropdown && <PriorityBox setFields={setFields} priority={priority}/>}
               </div>
-              {/* <div className="d-flex items-center light-text">
-                <DeleteOutlineOutlinedIcon className="mx-2 icon" />
-              </div>
-              <div className="d-flex items-cente light-text">
-                <ArchiveOutlinedIcon className="mx-2 icon" />
-              </div> */}
             </div>
           </div>
         </form>}
