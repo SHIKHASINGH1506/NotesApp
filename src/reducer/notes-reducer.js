@@ -31,7 +31,7 @@ const notesReducer = (state, action) => {
   } = action;
   switch (type) {
     case 'INIT_NOTES_SUCCESS':
-      const obj = {
+      return {
         ...state,
           notes,
           loading,
@@ -39,8 +39,6 @@ const notesReducer = (state, action) => {
           addFormFocus,
           editFormFocus
       };
-      console.log(obj);
-      return obj;
       case 'INIT_ARCHIVES_SUCCESS':
         return {
           ...state,

@@ -1,9 +1,8 @@
 import './home.css';
 import { Drawer, SearchBar, NoteForm, NotesList, AddNotePortal } from "component";
 import { useNote, useSortFilter } from 'context';
-import { addNote, editNote } from 'service';
+import { editNote } from 'service';
 import { useToast } from 'custom-hooks/useToast';
-import { getFormattedDate } from 'utils/getFormatedDate';
 import { getFilteredSortedNotes } from 'utils/getFilteredSortedNotes';
 
 
@@ -16,21 +15,16 @@ export const Home = () => {
   const {
     state: {
       notes,
-      archives,
       addFormFocus,
       editFormFocus,
-      filterFormFocus,
       archiveEditFormFocus
     }, 
-    noteData, 
-    setNoteData, 
     editNoteData,
     setEditNoteData,
     dispatch
   } = useNote();
-  const {sortFilterState: {sortBy, filterBylabels}, searchText, searchHandler} = useSortFilter();
+  const {sortFilterState: {sortBy, filterBylabels, sortByPriority}, searchText, searchHandler} = useSortFilter();
   const {showToast} = useToast();
-
   const handleEditFormFocus = (id) => {
     dispatch({
       type: 'SET_NEW_NOTE_FOCUS', 
@@ -50,11 +44,16 @@ export const Home = () => {
     });
   }
   //fucntion to edit note
-  const editNoteHandler = (e) => {
+  const editNoteHandler = async e => {
     e.preventDefault();
     e.stopPropagation();
-    if(!(editNoteData.title.trim() === '' && editNoteData.body.trim() === '')) {
-      editNote(dispatch, editNoteData._id, {note: editNoteData}, showToast);
+    try{
+
+      const { data :{notes} } = await editNote(editNoteData._id, {note: editNoteData});
+      dispatch({
+        type: 'UPDATE_NOTE', 
+        payload: {notes}
+      });
       showToast('Note updated successfully', 'success');
       setTimeout(() => {
         setEditNoteData(initialNote);
@@ -65,14 +64,9 @@ export const Home = () => {
             addFormFocus: false
           }});
       }, 1000)
+    }catch(error){
+      showToast('Could not update note', 'error');
     }
-    setEditNoteData(initialNote);
-    dispatch({
-      type: 'SET_NEW_NOTE_FOCUS', 
-      payload: {
-        editFormFocus: false,
-        addFormFocus: false
-    }});
   }
 
   //function to pin existing note
@@ -91,7 +85,7 @@ export const Home = () => {
         }
       });   
   }
-  const notesAfterFilterSort = getFilteredSortedNotes(notes, filterBylabels, sortBy, searchText);
+  const notesAfterFilterSort = getFilteredSortedNotes(notes, filterBylabels, sortBy, sortByPriority, searchText);
   return (
     <div className="wrapper">
       <div className={`overlay ${editFormFocus ? 'visible' : ''}`}>
