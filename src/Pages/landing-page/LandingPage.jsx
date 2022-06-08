@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import {useAuth} from 'context';
 
 export const LandingPage = () => {
-  const {isAuth} = useAuth();
+  const {auth: {token}} = useAuth();
   return (
     <div className="landing-wrapper p-4">
       <div className="landing-content-wrapper d-flex justify-between ">
@@ -21,7 +21,7 @@ export const LandingPage = () => {
             <button className="bttn bttn-primary bttn-lg">
               <Link to='/home'>Start Now</Link>
             </button>
-            {!isAuth && <p className="sub-text text-sm">Already have an account? 
+            {!token && <p className="sub-text text-sm">Already have an account? 
               <Link className="text-sm bold link-text-primary" to='/login'>Login</Link>
             </p>}
           </div>

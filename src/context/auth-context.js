@@ -5,9 +5,9 @@ const useAuth = () => useContext(AuthContext);
 
 const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({
-    token: '',
-    user: {},
-    isAuth: false
+    token: JSON.parse(localStorage.getItem("token")) ?? '',
+    user:  JSON.parse(localStorage.getItem("user")) ?? {},
+    isAuth: localStorage.getItem("isAuth") ?? false
   });
   useEffect(() => {
     setAuth({

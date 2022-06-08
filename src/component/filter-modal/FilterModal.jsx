@@ -79,7 +79,7 @@ export const FilterModal = ({filterFocusHandler}) => {
               {sortOptions.map( (option, index) => {
             return index===0
                 ? (
-                  <option value="" disabled selected>
+                  <option key={option.id} value="" disabled selected>
                   {option.value}
                   </option>
                   )

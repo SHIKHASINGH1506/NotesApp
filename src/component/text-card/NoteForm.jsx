@@ -72,12 +72,14 @@ export const NoteForm = (
       {isForm &&
         <form 
           className="card py-2 px-4"
-          style={{backgroundColor: isAddFrom ? backgroundColor : bgColor}}
+          style={{backgroundColor: isAddFrom 
+              ? backgroundColor 
+              : backgroundColor ? backgroundColor: bgColor}}
           onSubmit={(e) => addNoteHandler(e, backgroundColor)}
         >
           <div className="card__title-wrapper d-flex items-center justify-between ">
             <textarea
-              style={{backgroundColor: isAddFrom ? backgroundColor : bgColor}}
+              style={{backgroundColor: isAddFrom ? backgroundColor : backgroundColor ? backgroundColor: bgColor}}
               className="card__title"
               type="text"
               placeholder="Title"
@@ -87,13 +89,9 @@ export const NoteForm = (
               onChange={(e) => setFields(e)}
             >
             </textarea>
-            {/* <div 
-              className="d-flex items-center light-text mx-2 icon">
-              <PushPinOutlinedIcon className="mx-2 icon" />
-            </div> */}
           </div>
           <textarea
-            style={{backgroundColor: isAddFrom ? backgroundColor : bgColor}}
+            style={{backgroundColor: isAddFrom ? backgroundColor : backgroundColor ? backgroundColor: bgColor}}
             className="card__content text-light"
             type="text"
             placeholder="Add a note..."

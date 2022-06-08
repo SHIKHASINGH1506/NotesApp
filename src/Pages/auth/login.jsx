@@ -44,7 +44,7 @@ const Login = () => {
               localStorage.setItem("isAuth", "true");
               setTimeout(() => {
                   setLoginCreds(initalLoginCreds);
-                  navigate('/');
+                  navigate('/home');
               }, 1000)
           }
           else{

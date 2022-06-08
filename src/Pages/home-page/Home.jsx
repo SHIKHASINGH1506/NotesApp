@@ -44,12 +44,12 @@ export const Home = () => {
     });
   }
   //fucntion to edit note
-  const editNoteHandler = async e => {
+  const editNoteHandler = async (e, color) => {
     e.preventDefault();
     e.stopPropagation();
     try{
 
-      const { data :{notes} } = await editNote(editNoteData._id, {note: editNoteData});
+      const { data :{notes} } = await editNote(editNoteData._id, {note: {...editNoteData, bgColor: color}});
       dispatch({
         type: 'UPDATE_NOTE', 
         payload: {notes}
